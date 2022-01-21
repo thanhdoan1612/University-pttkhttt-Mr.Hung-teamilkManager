@@ -42,4 +42,10 @@ public class CategoryDAO extends AbstractDao implements IGenericDAO<Category> {
 		return false;
 	}
 
+	@Override
+	public Long save(Category t) {
+		String sql ="INSERT INTO `category`(`Name`) VALUES (?)";
+		return add(sql, t.getName());
+	}
+
 }

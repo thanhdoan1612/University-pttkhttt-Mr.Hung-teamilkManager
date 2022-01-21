@@ -25,24 +25,12 @@ public class TeamilkManagerController extends ManagerController<TeaMilk> {
 	public TeamilkManagerController() {
 		this.categoryService = new CategoryService();
 		this.iGenericService = new TeaMilkService();
-		this.headerName = getHeaderName();
-		this.listSearchName = getListSearchName();
+		this.headerName = header;
+		this.listSearchName = listSearch;
 	}
 
 	@Override
-	public String[] getHeaderName() {
-		// TODO Auto-generated method stub
-		return header;
-	}
-
-	@Override
-	public String[] getListSearchName() {
-		// TODO Auto-generated method stub
-		return listSearch;
-	}
-
-	@Override
-	public void getAddAction() {
+	public void addAction() {
 
 		String name = addFoodView.getField_name().getText();
 		String price = addFoodView.getField_price().getText();
@@ -57,7 +45,7 @@ public class TeamilkManagerController extends ManagerController<TeaMilk> {
 		t.setUnit(unit);
 		t.setQuantity(Integer.parseInt(quantity));
 		if (iGenericService.add(t)) {
-			MessagePopup.showMessage("Bạn đã thêm thành công món " + t.getName());
+			MessagePopup.showSuccessMessage("Bạn đã thêm thành công món " + t.getName());
 			addFoodView.dispose();
 		} else {
 			MessagePopup.showMessage("Thêm món ăn thất bại");
@@ -70,23 +58,44 @@ public class TeamilkManagerController extends ManagerController<TeaMilk> {
 
 		addFoodView = new AddFoodView();
 		addFoodView.setVisible(true);
-		String nameText = "Tên Món";
-		String priceText = "Giá";
-		String quantityText = "Số lượng";
 
-		addFoodView.getField_name().setText(nameText);
-		addFoodView.getField_price().setText(priceText);
-		addFoodView.getField_quanity().setText(quantityText);
+		addFoodView.getField_name().setText(header[0]);
+		addFoodView.getField_price().setText(header[1]);
+		addFoodView.getField_quanity().setText(header[5]);
 
 		DefaultComboBoxModel<String> defaultComboBoxModel = new DefaultComboBoxModel<String>();
 		for (Category c : categoryService.findAll()) {
 			defaultComboBoxModel.addElement(c.getName());
 		}
 		addFoodView.getComboBox_category().setModel(defaultComboBoxModel);
-		addFocusAction(addFoodView.getField_name(), nameText);
-		addFocusAction(addFoodView.getField_price(), priceText);
-		addFocusAction(addFoodView.getField_quanity(), quantityText);
+		initActionListener();
 	}
 
+	@Override
+	public void initActionListener() {
+		addFoodView.getBtn_cancel().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cancelAction();
+			}
+		});
+		addFoodView.getBtn_ok().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addAction();
+			}
+		});
+		addFocusAction(addFoodView.getField_name(), header[1]);
+		addFocusAction(addFoodView.getField_price(), header[2]);
+		addFocusAction(addFoodView.getField_quanity(), header[5]);
+	}
+
+	@Override
+	public void cancelAction() {
+		// TODO Auto-generated method stub
+		addFoodView.dispose();
+	}
 
 }

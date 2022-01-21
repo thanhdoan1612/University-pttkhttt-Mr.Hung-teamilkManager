@@ -37,4 +37,10 @@ public class CustomerDAO extends AbstractDao implements IGenericDAO<Customer> {
 		return false;
 	}
 
+	@Override
+	public Long save(Customer t) {
+		String sql = "INSERT INTO `customer`( `Name`, `Address`, `PhoneNumber`) VALUES (?,?,?)";
+		return add(sql, t.getName(), t.getAddress(), t.getPhoneNumber());
+	}
+
 }

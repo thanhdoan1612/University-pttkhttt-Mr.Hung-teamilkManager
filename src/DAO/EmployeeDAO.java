@@ -49,6 +49,13 @@ public class EmployeeDAO extends AbstractDao implements IGenericDAO<Employee> {
 		String sql = "Update employee set `isDeleted` = 1 where `ID` = ?";
 		return update(sql, id);
 	}
+
+	@Override
+	public Long save(Employee t) {
+		String sql="INSERT INTO `employee`(`FullOfName`, `Username`, `Password`, `PhoneNumber`, `DateOfBirth`, `isAdmin`)"
+				+ " VALUES (?,?,?,?,?,?)";
+		return add(sql, t.getFullOfName(),t.getUsername(),t.getPassword(),t.getPhoneNumber(),t.getDateOfBirth(),t.isAdmin());
+	}
 	
 
 }

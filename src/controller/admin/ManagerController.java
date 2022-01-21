@@ -11,24 +11,26 @@ import model.Model;
 import service.IGenericService;
 
 public abstract class ManagerController<T extends Model> {
-	public final int widthLabel = 100;
-	public final int heightLabel = 40;
-	public final int widthField = 250;
-	public final int heightField = 40;
-	public String[] headerName = getHeaderName();
-	public String[] listSearchName = getListSearchName();
+	public String[] headerName;
+	public String[] listSearchName;
 
 	public IGenericService<T> iGenericService;
 
-	public abstract String[] getHeaderName();
-
-	public abstract String[] getListSearchName();
-
 	public abstract void initAddView();
 
-	
+	public abstract void addAction();
 
-	public abstract void getAddAction();
+	public abstract void cancelAction();
+
+	public abstract void initActionListener();
+
+	public String[] getHeaderName() {
+		return this.headerName;
+	};
+
+	public String[] getListSearchName() {
+		return this.listSearchName;
+	};
 
 	public DefaultTableModel getData() {
 		DefaultTableModel defaultTableModel = new DefaultTableModel();

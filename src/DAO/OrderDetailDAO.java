@@ -42,4 +42,10 @@ public class OrderDetailDAO extends AbstractDao implements IGenericDAO<OrderDeta
 		return false;
 	}
 
+	@Override
+	public Long save(OrderDetail t) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

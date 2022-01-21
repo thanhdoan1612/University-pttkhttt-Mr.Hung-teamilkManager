@@ -55,4 +55,10 @@ public class TeaMilkDAO extends AbstractDao implements IGenericDAO<TeaMilk> {
 	public static void main(String[] args) {
 	
 	}
+
+	@Override
+	public Long save(TeaMilk t) {
+		String sql = "INSERT INTO `teamilk`(`Name`, `Price`, `CategoryID`, `Unit`, `Quantity`)" + " VALUES (?,?,?,?,?)";
+		return add(sql, t.getName(),t.getPrice(),t.getCategoryId(),t.getUnit(),t.getQuantity());
+	}
 }

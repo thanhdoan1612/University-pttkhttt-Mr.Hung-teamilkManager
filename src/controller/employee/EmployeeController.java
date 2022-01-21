@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import controller.LoginController;
 import model.Category;
 import model.Employee;
+import model.OrderDetail;
 import model.OrderType;
 import model.TeaMilk;
 import service.CategoryService;
@@ -29,6 +30,7 @@ public class EmployeeController {
 	private TeaMilkService teaMilkService;
 	private CategoryService categoryService;
 	private OrderTableController orderTableController;
+	private QuantityController quantityController;
 	private List<TeaMilk> listTeaMilks;
 
 	public EmployeeController() {
@@ -36,6 +38,7 @@ public class EmployeeController {
 		this.teaMilkService = new TeaMilkService();
 		this.categoryService = new CategoryService();
 		this.orderTableController = new OrderTableController();
+		
 		this.employeeView.setVisible(true);
 
 	}
@@ -43,19 +46,15 @@ public class EmployeeController {
 	public void init(Employee employee) {
 		listTeaMilks = teaMilkService.findAll();
 		setEmployeeName(employee.getFullOfName());
-		initMenu();
+		initMenuPanel();
 		initCategoryPanel();
 		initOrderTable();
 		initComboBoxOrderType();
-		addActionListener();
+		initAction();
 	}
 
 	public EmployeeView getEmployeeView() {
 		return employeeView;
-	}
-
-	public void setEmployeeView(EmployeeView employeeView) {
-		this.employeeView = employeeView;
 	}
 
 	public void initComboBoxOrderType() {
@@ -74,30 +73,30 @@ public class EmployeeController {
 		employeeView.getTable_order().setModel(orderTableController.getOrderTable());
 	}
 
-	public void initMenu() {
+	public void initMenuPanel() {
 		employeeView.getPanel_menu().removeAll();
-		employeeView.setBtns_menu(getMenu());
+		employeeView.setBtns_menu(getMenuBtns());
 		for (JButton btn : employeeView.getBtns_menu()) {
 			employeeView.getPanel_menu().add(btn);
 		}
-		employeeView.getPanel_menu().setPreferredSize(new Dimension(500, 100 * getMenu().length));
+		employeeView.getPanel_menu().setPreferredSize(new Dimension(500, 100 * getMenuBtns().length));
 		employeeView.revalidate();
 	}
 
 	// Tạo một mảng các button các món ăn
-	public JButton[] getMenu() {
+	public JButton[] getMenuBtns() {
 		JButton[] rs = null;
 		rs = new JButton[listTeaMilks.size()];
 		int i = 0;
 		int x = 0;
 		int y = 0;
 		for (TeaMilk t : listTeaMilks) {
-			rs[i] = createButtonTeamilk(t, x, y);
+			rs[i] = createTeamilkButton(t, x, y);
 			y += rs[i].getHeight();
 			rs[i].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					orderTableController.addTeamilk(t, employeeView);
+					addTeamilk(t);
 				}
 			});
 			i++;
@@ -108,7 +107,7 @@ public class EmployeeController {
 	/*
 	 * Tạo 1 button chọn món tại vị trí x =x, y =y
 	 */
-	public JButton createButtonTeamilk(TeaMilk teaMilk, int x, int y) {
+	public JButton createTeamilkButton(TeaMilk teaMilk, int x, int y) {
 		int width = 400;
 		int height = 100;
 		JButton rs = new JButton();
@@ -130,13 +129,13 @@ public class EmployeeController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				listTeaMilks = teaMilkService.findByCategoryID(category.getID());
-				initMenu();
+				initMenuPanel();
 			}
 		});
 		return rs;
 	}
 
-	public JButton[] getCategory() {
+	public JButton[] getCategoryBtns() {
 		JButton[] rs = null;
 		List<Category> list = categoryService.findAll();
 		rs = new JButton[list.size()];
@@ -152,14 +151,15 @@ public class EmployeeController {
 	}
 
 	public void initCategoryPanel() {
-		this.employeeView.setBtns_category(getCategory());
-		for (JButton btn : getCategory()) {
+
+		this.employeeView.setBtns_category(getCategoryBtns());
+		for (JButton btn : employeeView.getBtns_category()) {
 			this.employeeView.getPanel_category().add(btn);
 		}
-		this.employeeView.getPanel_category().setPreferredSize(new Dimension(200 * getCategory().length, 125));
+		this.employeeView.getPanel_category().setPreferredSize(new Dimension(200 * getCategoryBtns().length, 125));
 	}
 
-	public void addActionListener() {
+	public void initAction() {
 		this.employeeView.getBtn_accept().addActionListener(new ActionListener() {
 
 			@Override
@@ -170,10 +170,9 @@ public class EmployeeController {
 					int total = ConvertNumber.priceToNumber(employeeView.getField_total().getText());
 					String moneyBack = ConvertNumber.numberToPrice(moneyReceive - total);
 					employeeView.getField_moneyBack().setText(moneyBack);
-					if(orderTableController.addOrder()) { 
+					if (addOrder()) {
 						MessagePopup.showSuccessMessage("Bạn đã thêm đơn thành công");
-						clear();
-					}else {
+					} else {
 						MessagePopup.showMessage("Có lỗi khi thêm đơn hàng");
 					}
 				}
@@ -182,13 +181,13 @@ public class EmployeeController {
 
 		this.employeeView.getBtn_exit().addActionListener(new ActionListener() {
 
-	@Override
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (MessagePopup.showExitWarning()) {
 					if (Session.USERLOGIN.isAdmin()) {
 						employeeView.dispose();
 					} else {
-						Session.USERLOGIN=null;
+						Session.USERLOGIN = null;
 						System.exit(1);
 						LoginController loginController = new LoginController();
 
@@ -219,10 +218,30 @@ public class EmployeeController {
 			}
 		});
 	}
+
 	public void clear() {
 		employeeView.getTable_order().removeAll();
 		employeeView.getField_moneyBack().setText("");
 		employeeView.getField_receiveMoney().setText("");
 		employeeView.getField_total().setText("");
+		orderTableController.getOrderTable().setRowCount(0);
+		employeeView.getTable_order().setModel(orderTableController.getOrderTable());
+	}
+
+	public void addTeamilk(TeaMilk t) {
+		setOff();
+		QuantityController quantityController =new QuantityController(t,orderTableController,this);
+		quantityController.init();
+		
+	}
+	public void setOff() {
+		employeeView.setEnabled(false);
+	}
+
+	public void setOn() {
+		employeeView.setEnabled(true);
+	}
+	public boolean addOrder() {
+		return orderTableController.addOrder();
 	}
 }

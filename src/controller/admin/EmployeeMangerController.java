@@ -17,21 +17,13 @@ public class EmployeeMangerController extends ManagerController<Employee> {
 
 	public EmployeeMangerController() {
 		this.iGenericService = new EmployeeService();
+		this.headerName=header;
+		this.listSearchName=listSearch;
 		this.headerName = getHeaderName();
 		this.listSearchName = getListSearchName();
 	}
 
-	@Override
-	public String[] getHeaderName() {
-		// TODO Auto-generated method stub
-		return header;
-	}
-
-	@Override
-	public String[] getListSearchName() {
-		// TODO Auto-generated method stub
-		return listSearch;
-	}
+	
 
 	public void initAddView() {
 
@@ -45,30 +37,12 @@ public class EmployeeMangerController extends ManagerController<Employee> {
 		addEmployeeView.getField_phoneNumber().setText(header[5]);
 		addEmployeeView.getField_dateOfBirth().setText("dd/mm/yyyy");
 
-		addFocusAction(addEmployeeView.getField_fullname(), header[1]);
-		addFocusAction(addEmployeeView.getField_username(), header[2]);
-		addFocusAction(addEmployeeView.getField_password(), header[3]);
-		addFocusAction(addEmployeeView.getField_phoneNumber(), header[5]);
-
-		addFocusAction(addEmployeeView.getField_dateOfBirth(), "dd/mm/yyyy");
-		addEmployeeView.getBtn_cancel().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				addEmployeeView.dispose();
-			}
-		});
-		addEmployeeView.getBtn_add().addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				getAddAction();
-			}
-		});
+		initActionListener();
+		
 	}
 
 	@Override
-	public void getAddAction() {
+	public void addAction() {
 
 		String fullname = addEmployeeView.getField_fullname().getText();
 		String username = addEmployeeView.getField_username().getText();
@@ -91,6 +65,37 @@ public class EmployeeMangerController extends ManagerController<Employee> {
 			MessagePopup.showMessage("Thêm nhân viên thất bại. Bạn vui lòng kiểm tra lại");
 		}
 
+	}
+
+	@Override
+	public void initActionListener() {
+		addEmployeeView.getBtn_cancel().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cancelAction();
+			}
+		});
+		addEmployeeView.getBtn_add().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addAction();
+			}
+		});
+		addFocusAction(addEmployeeView.getField_fullname(), header[1]);
+		addFocusAction(addEmployeeView.getField_username(), header[2]);
+		addFocusAction(addEmployeeView.getField_password(), header[3]);
+		addFocusAction(addEmployeeView.getField_phoneNumber(), header[5]);
+
+		addFocusAction(addEmployeeView.getField_dateOfBirth(), "dd/mm/yyyy");
+	}
+
+
+
+	@Override
+	public void cancelAction() {
+		addEmployeeView.dispose();
 	}
 
 }

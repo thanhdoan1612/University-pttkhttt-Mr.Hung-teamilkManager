@@ -50,7 +50,7 @@ public class StatisticController {
 	public void init() {
 		initDate();
 		initModel();
-		addAction();
+		initAction();
 	}
 
 	public void initDate() {
@@ -106,7 +106,7 @@ public class StatisticController {
 		this.model = model;
 	}
 
-	public void addAction() {
+	public void initAction() {
 		statisticView.getBtn_statisticByOrder().addActionListener(new ActionListener() {
 			
 			@Override
