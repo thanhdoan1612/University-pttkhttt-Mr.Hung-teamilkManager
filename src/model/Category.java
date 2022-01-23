@@ -3,6 +3,13 @@ package model;
 public class Category {
 	private int ID;
 	private String name;
+	private String code;
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
 	public int getID() {
 		return ID;
 	}

@@ -13,7 +13,9 @@ public class CategoryMapper implements RowMapper<Category> {
 		try {
 			category.setID(rss.getInt("ID"));
 			category.setName(rss.getString("Name"));
+			category.setCode(rss.getString("code"));
 			return category;
+			
 		} catch (SQLException e) {
 			System.out.println("Lỗi khi map category :" +e.getMessage());
 			return null;

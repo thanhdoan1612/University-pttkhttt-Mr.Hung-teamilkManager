@@ -21,7 +21,7 @@ public class AdminController {
 		this.adminView = new AdminView();
 		this.statisticController = new StatisticController();
 		this.adminView.setVisible(true);
-		addAction();
+		initAction();
 	}
 
 	public void init(Employee employee) {
@@ -76,7 +76,7 @@ public class AdminController {
 		}
 	}
 
-	public void addAction() {
+	public void initAction() {
 
 		this.adminView.getBtn_teamilk_manager().addActionListener(new ActionListener() {
 
@@ -107,6 +107,15 @@ public class AdminController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				managerController.initAddView();
+			}
+		});
+		this.adminView.getBtn_edit().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int row = adminView.getTable_view().getSelectedRow();
+				int id = (int)adminView.getTable_view().getValueAt(row, 0);
+				managerController.initUpdateView(id);
 			}
 		});
 		this.adminView.getField_search().addKeyListener(new KeyAdapter() {

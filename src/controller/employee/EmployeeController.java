@@ -1,20 +1,27 @@
 package controller.employee;
 
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.FileOutputStream;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfTemplate;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import controller.LoginController;
 import model.Category;
 import model.Employee;
-import model.OrderDetail;
 import model.OrderType;
 import model.TeaMilk;
 import service.CategoryService;
@@ -30,7 +37,6 @@ public class EmployeeController {
 	private TeaMilkService teaMilkService;
 	private CategoryService categoryService;
 	private OrderTableController orderTableController;
-	private QuantityController quantityController;
 	private List<TeaMilk> listTeaMilks;
 
 	public EmployeeController() {
@@ -38,7 +44,7 @@ public class EmployeeController {
 		this.teaMilkService = new TeaMilkService();
 		this.categoryService = new CategoryService();
 		this.orderTableController = new OrderTableController();
-		
+
 		this.employeeView.setVisible(true);
 
 	}
@@ -120,7 +126,7 @@ public class EmployeeController {
 
 	// Tạo 1 button chọn danh mục món tại vị trí x,y
 	public JButton createCategoryButton(Category category, int x, int y) {
-		int width = 150;
+		int width = 125;
 		int height = 100;
 		JButton rs = new JButton();
 		rs.setText(category.getName());
@@ -217,6 +223,14 @@ public class EmployeeController {
 				employeeView.getField_receiveMoney().setText(price);
 			}
 		});
+		this.employeeView.getBtn_print().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				printOrderIntoPDF();
+			}
+		});
 	}
 
 	public void clear() {
@@ -230,10 +244,11 @@ public class EmployeeController {
 
 	public void addTeamilk(TeaMilk t) {
 		setOff();
-		QuantityController quantityController =new QuantityController(t,orderTableController,this);
+		QuantityController quantityController = new QuantityController(t, orderTableController, this);
 		quantityController.init();
-		
+
 	}
+
 	public void setOff() {
 		employeeView.setEnabled(false);
 	}
@@ -241,7 +256,29 @@ public class EmployeeController {
 	public void setOn() {
 		employeeView.setEnabled(true);
 	}
+
 	public boolean addOrder() {
 		return orderTableController.addOrder();
+	}
+	public void printOrderIntoPDF() {
+		JPanel panel = employeeView.getPanel_teamilk_order();
+		Document document = new Document();
+		try {
+		    PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("order\\test.pdf"));
+		    document.open();
+		    PdfContentByte contentByte = writer.getDirectContent();
+		    PdfTemplate template = contentByte.createTemplate(500, 500);
+		    Graphics2D g2 = template.createGraphics(500, 500);
+		    panel.print(g2);
+		    g2.dispose();
+		    contentByte.addTemplate(template, 30, 300);
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+		finally{
+		    if(document.isOpen()){
+		        document.close();
+		    }
+		}
 	}
 }

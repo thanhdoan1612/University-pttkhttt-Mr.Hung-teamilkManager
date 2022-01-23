@@ -11,11 +11,13 @@ import controller.admin.AdminController;
 import controller.employee.EmployeeController;
 import model.Employee;
 import service.EmployeeService;
+import utils.MessagePopup;
 import utils.Session;
+import utils.SystemConstant;
 import view.LoginView;
 
 public class LoginController {
-	
+
 	private EmployeeService employeeService;
 	private LoginView loginView;
 
@@ -26,6 +28,7 @@ public class LoginController {
 		init();
 		addAction();
 	}
+
 	public void init() {
 		loginView.getField_username().setText("Tên Đăng Nhập");
 		loginView.getField_password().setText("********");
@@ -34,21 +37,29 @@ public class LoginController {
 	public void login() {
 		String username = this.loginView.getField_username().getText();
 		String password = new String(this.loginView.getField_password().getPassword());
-		Employee employee = employeeService.login(username, password);
-		if (employee != null) {
-			Session.USERLOGIN = employee;
-			if (employee.isAdmin()) {
-				AdminController adminController = new AdminController();
-				adminController.init(employee);
-				this.loginView.dispose();
-			} else {
-				EmployeeController employeeController = new EmployeeController();
-				employeeController.init(employee);
-				this.loginView.dispose();
-			}
-
+		if (username.equals(SystemConstant.USERNAMEPLACEHOLDER)||username==null) {
+			MessagePopup.showMessage("Chưa nhập tên đăng nhập");
 		} else {
-			this.loginView.showError("Sai tên đăng nhập hoặc mật khẩu");
+			if (password.equals(SystemConstant.PASSWORDPLACEHOLDER)||password==null) {
+				MessagePopup.showMessage("Chưa nhập mật khẩu");
+			} else {
+				Employee employee = employeeService.login(username, password);
+				if (employee != null) {
+					Session.USERLOGIN = employee;
+					if (employee.isAdmin()) {
+						AdminController adminController = new AdminController();
+						adminController.init(employee);
+						this.loginView.dispose();
+					} else {
+						EmployeeController employeeController = new EmployeeController();
+						employeeController.init(employee);
+						this.loginView.dispose();
+					}
+
+				} else {
+					this.loginView.showError("Sai tên đăng nhập hoặc mật khẩu");
+				}
+			}
 		}
 
 	}
@@ -87,6 +98,7 @@ public class LoginController {
 					loginView.getField_username().setText("Tên Đăng Nhập");
 
 			}
+
 			@Override
 			public void focusGained(FocusEvent e) {
 				if (loginView.getField_username().getText().equals("Tên Đăng Nhập"))
@@ -102,6 +114,7 @@ public class LoginController {
 					loginView.getField_password().setText("********");
 
 			}
+
 			@Override
 			public void focusGained(FocusEvent e) {
 				if (loginView.getField_password().getText().equals("********"))

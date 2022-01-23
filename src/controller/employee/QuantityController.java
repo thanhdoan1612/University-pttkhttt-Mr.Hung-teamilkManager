@@ -1,16 +1,23 @@
 package controller.employee;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.util.List;
 
+import javax.swing.JCheckBox;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import model.Category;
 import model.OrderDetail;
 import model.TeaMilk;
+import service.CategoryService;
+import service.TeaMilkService;
 import utils.ConvertNumber;
-import view.employee.EmployeeView;
 import view.employee.QuantityView;
 
 public class QuantityController {
@@ -20,6 +27,10 @@ public class QuantityController {
 	private OrderDetail orderDetail;
 	private OrderTableController orderTableController;
 	private EmployeeController employeeController;
+	private CategoryService categoryService;
+	private TeaMilkService teaMilkService;
+	private JTextField[] fields;
+	private JCheckBox[] checkBoxs;
 
 	public QuantityController(TeaMilk teamilk, OrderTableController orderTableController,
 			EmployeeController employeeController) {
@@ -28,6 +39,8 @@ public class QuantityController {
 		this.orderTableController = orderTableController;
 		this.employeeController = employeeController;
 		this.teamilk = teamilk;
+		this.categoryService = new CategoryService();
+		this.teaMilkService = new TeaMilkService();
 		initAction();
 
 	}
@@ -37,7 +50,38 @@ public class QuantityController {
 		this.quantity = 0;
 		this.quantityView.setVisible(true);
 		this.quantityView.getField_number().setText(quantity + "");
+		initTopping();
 
+	}
+
+	public void initTopping() {
+		int xField = this.quantityView.getField_topping().getX();
+		int widthField = this.quantityView.getField_topping().getWidth();
+		int heightField = this.quantityView.getField_topping().getHeight();
+		int xCbox = this.quantityView.getCheckBox_choose().getX();
+		int widthCbox = this.quantityView.getCheckBox_choose().getWidth();
+		int heightCbox = this.quantityView.getCheckBox_choose().getHeight();
+		Category category = categoryService.findByCode("topping");
+		List<TeaMilk> listTeaMilks = teaMilkService.findByCategoryID(category.getID());
+		fields = new JTextField[listTeaMilks.size()];
+		checkBoxs = new JCheckBox[listTeaMilks.size()];
+
+		for (int i = 0; i < fields.length; i++) {
+			fields[i] = new JTextField(listTeaMilks.get(i).getName());
+			fields[i].setBounds(xField, heightField * i, widthField, heightField);
+			fields[i].setEnabled(false);
+			fields[i].setDisabledTextColor(Color.BLACK);
+			checkBoxs[i] = new JCheckBox();
+			checkBoxs[i].setHorizontalAlignment(SwingConstants.CENTER);
+			checkBoxs[i].setActionCommand(listTeaMilks.get(i).getId() + "");
+			checkBoxs[i].setBounds(xCbox, heightCbox * i, widthCbox, heightCbox);
+			checkBoxs[i].setVisible(true);
+			this.quantityView.getPanel_topping().add(fields[i]);
+			this.quantityView.getPanel_topping().add(checkBoxs[i]);
+
+		}
+		this.quantityView.getPanel_topping()
+				.setPreferredSize(new Dimension(widthField + widthCbox, heightField * fields.length));
 	}
 
 	public boolean isOn() {
@@ -83,8 +127,9 @@ public class QuantityController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				createOrderDetail();
-				quantityView.dispose();
 				employeeController.setOn();
+				quantityView.dispose();
+
 				int total = (int) orderTableController.getTotal();
 				String totalPrice = ConvertNumber.numberToPrice(total);
 				employeeController.getEmployeeView().getField_total().setText(totalPrice);
@@ -93,6 +138,7 @@ public class QuantityController {
 		});
 
 	}
+
 	public void createOrderDetail() {
 		orderDetail.setTeaMilk(teamilk);
 		orderDetail.setTeaMilkID(teamilk.getId());

@@ -22,12 +22,22 @@ public class ConvertNumber {
 		StringBuilder rs = new StringBuilder();
 		for (int i = strArr.length - 1; i >= 0; i--) {
 			rs.append(strArr[i]);
-			if(i>0) rs.append("-");
+			if (i > 0)
+				rs.append("-");
 		}
 		return rs.toString();
 	}
 
-	public static void main(String[] args) {
-	
+	public static String sqlDateToString(String date) {
+		String[] strArr = date.split("-");
+		StringBuilder rs = new StringBuilder();
+		for (int i = strArr.length - 1; i >= 0; i--) {
+			rs.append(strArr[i]);
+			if (i > 0)
+				rs.append("/");
+		}
+		return rs.toString();
 	}
+
+	
 }

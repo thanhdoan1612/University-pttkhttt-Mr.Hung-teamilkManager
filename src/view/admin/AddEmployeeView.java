@@ -19,7 +19,7 @@ public class AddEmployeeView extends JFrame {
 	private JTextField field_dateOfBirth;
 	private JTextField field_phoneNumber;
 	private JPasswordField field_password;
-	private JComboBox comboBox_isAdmin;
+	private JComboBox<String> comboBox_isAdmin;
 	private JButton btn_add;
 	private JButton btn_cancel;
 
@@ -129,11 +129,11 @@ public class AddEmployeeView extends JFrame {
 		this.btn_cancel = btn_cancel;
 	}
 
-	public JComboBox getComboBox_isAdmin() {
+	public JComboBox<String> getComboBox_isAdmin() {
 		return comboBox_isAdmin;
 	}
 
-	public void setComboBox_isAdmin(JComboBox comboBox_isAdmin) {
+	public void setComboBox_isAdmin(JComboBox<String> comboBox_isAdmin) {
 		this.comboBox_isAdmin = comboBox_isAdmin;
 	}
 

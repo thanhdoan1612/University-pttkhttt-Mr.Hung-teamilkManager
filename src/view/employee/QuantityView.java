@@ -11,6 +11,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import java.awt.Dimension;
+import javax.swing.JRadioButton;
+import javax.swing.JCheckBox;
 
 public class QuantityView extends JFrame {
 
@@ -21,7 +26,10 @@ public class QuantityView extends JFrame {
 	private JButton btn_ok;
 	private JButton btn_exit;
 	private JLabel label_nameFood;
-	private JComboBox comboBox_topping;
+	private JTextField field_topping;
+	private JScrollPane scrollPane_topping;
+	private JPanel panel_topping;
+	private JCheckBox checkBox_choose;
 
 	/**
 	 * Create the frame.
@@ -31,65 +39,118 @@ public class QuantityView extends JFrame {
 		setAlwaysOnTop(true);
 		setTitle("Số lượng");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 423, 329);
+		
+		setBounds(100, 100, 433, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		btn_add = new JButton("Thêm");
-		btn_add.setBounds(322, 78, 69, 101);
-		btn_add.setFont(new Font("Arial", Font.PLAIN, 14));
+		btn_add = new JButton("+");
+		btn_add.setBounds(334, 78, 81, 45);
+		btn_add.setFont(new Font("Arial", Font.PLAIN, 40));
 		contentPane.add(btn_add);
 
-		btn_sub = new JButton("Giảm");
-		btn_sub.setBounds(93, 78, 65, 101);
-		btn_sub.setFont(new Font("Arial", Font.PLAIN, 14));
+		btn_sub = new JButton("-");
+		btn_sub.setBounds(93, 78, 65, 45);
+		btn_sub.setFont(new Font("Arial", Font.PLAIN, 40));
 		contentPane.add(btn_sub);
 
 		field_number = new JTextField();
-		field_number.setBounds(168, 78, 133, 101);
+		field_number.setBounds(168, 78, 156, 45);
 		field_number.setText("0");
 		field_number.setHorizontalAlignment(SwingConstants.CENTER);
 		field_number.setFont(new Font("Arial", Font.PLAIN, 29));
 		contentPane.add(field_number);
 		
 		btn_ok = new JButton("Chọn");
-		btn_ok.setBounds(80, 273, 100, 45);
+		btn_ok.setBounds(120, 444, 100, 45);
 		contentPane.add(btn_ok);
 		btn_ok.setFont(new Font("Arial", Font.PLAIN, 16));
 		
 		btn_exit = new JButton("Hủy");
-		btn_exit.setBounds(234, 273, 109, 45);
+		btn_exit.setBounds(271, 444, 109, 45);
 		contentPane.add(btn_exit);
 		btn_exit.setFont(new Font("Arial", Font.PLAIN, 16));
 		
 		label_nameFood = new JLabel("New label");
 		label_nameFood.setHorizontalAlignment(SwingConstants.CENTER);
 		label_nameFood.setFont(new Font("Arial", Font.PLAIN, 16));
-		label_nameFood.setBounds(94, 11, 283, 58);
+		label_nameFood.setBounds(94, 11, 321, 58);
 		contentPane.add(label_nameFood);
 		
 		JLabel label_topping = new JLabel("Topping:");
 		label_topping.setFont(new Font("Arial", Font.PLAIN, 16));
-		label_topping.setBounds(10, 192, 81, 58);
+		label_topping.setBounds(10, 147, 81, 58);
 		contentPane.add(label_topping);
-		
-		comboBox_topping = new JComboBox();
-		comboBox_topping.setFont(new Font("Arial", Font.PLAIN, 16));
-		comboBox_topping.setBounds(93, 190, 298, 63);
-		contentPane.add(comboBox_topping);
 		
 		JLabel label_quantity = new JLabel("Số lượng:");
 		label_quantity.setFont(new Font("Arial", Font.PLAIN, 16));
-		label_quantity.setBounds(10, 100, 81, 58);
+		label_quantity.setBounds(10, 78, 81, 58);
 		contentPane.add(label_quantity);
 		
 		JLabel label_name = new JLabel("Tên món:");
 		label_name.setFont(new Font("Arial", Font.PLAIN, 16));
 		label_name.setBounds(10, 11, 81, 58);
 		contentPane.add(label_name);
+		
+		scrollPane_topping = new JScrollPane();
+		scrollPane_topping.setBounds(93, 160, 322, 273);
+		contentPane.add(scrollPane_topping);
+		
+		panel_topping = new JPanel();
+		scrollPane_topping.setViewportView(panel_topping);
+		panel_topping.setLayout(null);
+		
+		field_topping = new JTextField();
+		field_topping.setVisible(false);
+		field_topping.setFont(new Font("Arial", Font.PLAIN, 20));
+		field_topping.setBounds(0, 0, 231, 49);
+		panel_topping.add(field_topping);
+		field_topping.setEditable(false);
+		field_topping.setColumns(10);
+		
+		checkBox_choose = new JCheckBox("");
+		checkBox_choose.setVisible(false);
+		checkBox_choose.setFont(new Font("Arial", Font.PLAIN, 20));
+		checkBox_choose.setHorizontalAlignment(SwingConstants.CENTER);
+		checkBox_choose.setBounds(237, 0, 71, 49);
+		panel_topping.add(checkBox_choose);
 	}
+
+	public JPanel getPanel_topping() {
+		return panel_topping;
+	}
+
+	public void setPanel_topping(JPanel panel_topping) {
+		this.panel_topping = panel_topping;
+	}
+
+	public JScrollPane getScrollPane_topping() {
+		return scrollPane_topping;
+	}
+
+	public void setScrollPane_topping(JScrollPane scrollPane_topping) {
+		this.scrollPane_topping = scrollPane_topping;
+	}
+
+	public JCheckBox getCheckBox_choose() {
+		return checkBox_choose;
+	}
+
+	public void setCheckBox_choose(JCheckBox checkBox_choose) {
+		this.checkBox_choose = checkBox_choose;
+	}
+
+	public JTextField getField_topping() {
+		return field_topping;
+	}
+
+
+	public void setField_topping(JTextField field_topping) {
+		this.field_topping = field_topping;
+	}
+
 
 	public JLabel getLabel_nameFood() {
 		return label_nameFood;
@@ -97,14 +158,6 @@ public class QuantityView extends JFrame {
 
 	public void setLabel_nameFood(JLabel label_nameFood) {
 		this.label_nameFood = label_nameFood;
-	}
-
-	public JComboBox getComboBox_topping() {
-		return comboBox_topping;
-	}
-
-	public void setComboBox_topping(JComboBox comboBox_topping) {
-		this.comboBox_topping = comboBox_topping;
 	}
 
 	public JButton getBtn_ok() {

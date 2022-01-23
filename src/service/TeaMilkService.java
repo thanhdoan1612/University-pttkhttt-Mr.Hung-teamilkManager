@@ -37,4 +37,13 @@ public class TeaMilkService implements IGenericService<TeaMilk> {
 	public TeaMilk findByID(int id) {
 		return teaMilkDAO.findByID(id);
 	}
+	public TeaMilk findByName(String name) {
+		return teaMilkDAO.findByName(name);
+	}
+	@Override
+	public boolean update(TeaMilk t) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

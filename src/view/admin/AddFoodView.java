@@ -19,7 +19,7 @@ public class AddFoodView extends JFrame {
 	private JTextField field_quanity;
 	private JTextField field_unit;
 	private JLabel label_name;
-	private JComboBox comboBox_category;
+	private JComboBox<String> comboBox_category;
 	private JButton btn_ok;
 	private JButton btn_cancel;
 
@@ -120,11 +120,11 @@ public class AddFoodView extends JFrame {
 		this.btn_cancel = btn_cancel;
 	}
 
-	public JComboBox getComboBox_category() {
+	public JComboBox<String> getComboBox_category() {
 		return comboBox_category;
 	}
 
-	public void setComboBox_category(JComboBox comboBox_category) {
+	public void setComboBox_category(JComboBox<String> comboBox_category) {
 		this.comboBox_category = comboBox_category;
 	}
 

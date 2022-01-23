@@ -52,10 +52,11 @@ public class TeaMilkDAO extends AbstractDao implements IGenericDAO<TeaMilk> {
 		String sql = "Select * from teamilk where ID = " + id;
 		return query(sql, new TeaMilkMapper()).isEmpty() ? null:query(sql, new TeaMilkMapper()).get(0);
 	}
-	public static void main(String[] args) {
 	
+	public TeaMilk findByName(String name) {
+		String sql = "Select * from teamilk where `Name` =  ?";
+		return query(sql, new TeaMilkMapper(),name).isEmpty() ? null:query(sql, new TeaMilkMapper(),name).get(0);
 	}
-
 	@Override
 	public Long save(TeaMilk t) {
 		String sql = "INSERT INTO `teamilk`(`Name`, `Price`, `CategoryID`, `Unit`, `Quantity`)" + " VALUES (?,?,?,?,?)";

@@ -13,12 +13,17 @@ import service.IGenericService;
 public abstract class ManagerController<T extends Model> {
 	public String[] headerName;
 	public String[] listSearchName;
+	public int id;
 
 	public IGenericService<T> iGenericService;
 
 	public abstract void initAddView();
 
+	public abstract void initUpdateView(int id);
+
 	public abstract void addAction();
+
+	public abstract void updateAction();
 
 	public abstract void cancelAction();
 

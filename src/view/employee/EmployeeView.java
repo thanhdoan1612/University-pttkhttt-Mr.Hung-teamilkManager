@@ -68,6 +68,8 @@ public class EmployeeView extends JFrame {
 	private JLabel label_moneyBack;
 	private JTextField field_moneyBack;
 	private JButton btn_accept;
+	private JPanel panel_teamilk_order;
+	private JButton btn_print;
 	
 
 	/**
@@ -106,7 +108,7 @@ public class EmployeeView extends JFrame {
 		panel_category.setAutoscrolls(true);
 
 		
-		JPanel panel_teamilk_order = new JPanel();
+		panel_teamilk_order = new JPanel();
 		panel_teamilk_order.setBounds(776, 55, 464, 575);
 		contentPane.add(panel_teamilk_order);
 		panel_teamilk_order.setLayout(null);
@@ -179,7 +181,7 @@ public class EmployeeView extends JFrame {
 		field_receiveMoney.setBounds(102, 473, 154, 35);
 		panel_teamilk_order.add(field_receiveMoney);
 		
-		JButton btn_print = new JButton("In hóa đơn");
+		btn_print = new JButton("In hóa đơn");
 		btn_print.setFont(new Font("Arial", Font.PLAIN, 14));
 		btn_print.setBounds(289, 431, 122, 45);
 		panel_teamilk_order.add(btn_print);
@@ -259,6 +261,22 @@ public class EmployeeView extends JFrame {
 	}
 
 	
+
+	public JButton getBtn_print() {
+		return btn_print;
+	}
+
+	public void setBtn_print(JButton btn_print) {
+		this.btn_print = btn_print;
+	}
+
+	public JPanel getPanel_teamilk_order() {
+		return panel_teamilk_order;
+	}
+
+	public void setPanel_teamilk_order(JPanel panel_teamilk_order) {
+		this.panel_teamilk_order = panel_teamilk_order;
+	}
 
 	public JTextField getField_moneyBack() {
 		return field_moneyBack;

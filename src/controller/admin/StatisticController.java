@@ -74,7 +74,7 @@ public class StatisticController {
 		model.setRowCount(0);
 		Employee employee;
 		for (Order o : listOrder) {
-			employee = employeeService.findById(o.getEmployeeID());
+			employee = employeeService.findByID(o.getEmployeeID());
 			o.setEmployee(employee);
 			model.addRow(o.toRowTable());
 		}
@@ -90,7 +90,7 @@ public class StatisticController {
 		model.setRowCount(0);
 		HashMap<Integer, Double> map = orderService.statisticByEmployee();
 		for (int key : map.keySet()) {
-			Employee employee = employeeService.findById(key);
+			Employee employee = employeeService.findByID(key);
 			Object[] row = new Object[] { employee.getId(), employee.getFullOfName(), map.get(key) };
 			model.addRow(row);
 		}

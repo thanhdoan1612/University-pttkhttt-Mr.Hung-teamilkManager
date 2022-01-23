@@ -36,6 +36,19 @@ public class CategoryService  implements IGenericService<Category>{
 	public Category findByName(String name) {
 		return categoryDAO.findByName(name);
 	}
+	public Category findByCode(String code) {
+		return categoryDAO.findByCode(code);
+	}
+	@Override
+	public Category findByID(int id) {
+		// TODO Auto-generated method stub
+		return categoryDAO.findByID(id);
+	}
+	@Override
+	public boolean update(Category t) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 
 }

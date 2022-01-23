@@ -36,6 +36,14 @@ public class CategoryDAO extends AbstractDao implements IGenericDAO<Category> {
 		return query(sql, new CategoryMapper(),name).isEmpty() ? null : query(sql, new CategoryMapper(),name).get(0);
 	}
 
+	public Category findByID(int id) {
+		String sql = "select * from category where `ID` = ?";
+		return query(sql, new CategoryMapper(),id).isEmpty() ? null : query(sql, new CategoryMapper(),id).get(0);
+	}
+	public Category findByCode(String code) {
+		String sql = "select * from category where `code` = ?";
+		return query(sql, new CategoryMapper(),code).isEmpty() ? null : query(sql, new CategoryMapper(),code).get(0);
+	}
 	@Override
 	public boolean delete(int id) {
 		// TODO Auto-generated method stub

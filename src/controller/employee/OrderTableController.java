@@ -8,28 +8,22 @@ import javax.swing.table.DefaultTableModel;
 
 import model.Order;
 import model.OrderDetail;
-import model.TeaMilk;
 import service.OrderDetailService;
 import service.OrderService;
 import service.TeaMilkService;
-import utils.ConvertNumber;
 import utils.Session;
-import view.employee.EmployeeView;
 
 public class OrderTableController {
 	private OrderService orderService;
 	private OrderDetailService orderDetailService;
-	private TeaMilkService teaMilkService;
 	private String[] header;
 	private DefaultTableModel defaultTableModel;
 	private Order order;
 	private List<OrderDetail> list;
-	private QuantityController quantityController;
 
 	public OrderTableController() {
 		this.orderService = new OrderService();
-		orderDetailService = new OrderDetailService();
-		this.teaMilkService = new TeaMilkService();
+		this.orderDetailService = new OrderDetailService();
 		this.defaultTableModel = new DefaultTableModel() {
 			@Override
 			public boolean isCellEditable(int row, int column) {

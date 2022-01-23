@@ -38,9 +38,16 @@ public class EmployeeService implements IGenericService<Employee> {
 		// TODO Auto-generated method stub
 		return employeeDAO.search(nameSearch, value);
 	}
-	public Employee findById(int id) {
+	
+	public Employee findByID(int id) {
 		return employeeDAO.findById(id);
 	}
+	@Override
+	public boolean update(Employee t) {
+		// TODO Auto-generated method stub
+		return employeeDAO.update(t);
+	}
+
 
 }
 
