@@ -20,7 +20,7 @@ public class TeaMilkService implements IGenericService<TeaMilk> {
 	}
 
 	public boolean delete(TeaMilk t) {
-		return teaMilkDAO.delete(t);
+		return teaMilkDAO.delete(t.getId());
 	}
 	@Override
 	public boolean delete(int id) {

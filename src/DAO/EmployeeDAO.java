@@ -9,18 +9,12 @@ import model.TeaMilk;
 
 public class EmployeeDAO extends AbstractDao implements IGenericDAO<Employee> {
 
-	@Override
+	
 	public boolean add(Employee t) {
 		String sql = "INSERT INTO `employee`(`FullOfName`, `Username`, `Password`, `PhoneNumber`, `DateOfBirth`, `isAdmin`)"
 				+ " VALUES (?,?,?,?,?,?)";
 		return update(sql, t.getFullOfName(), t.getUsername(), t.getPassword(), t.getPhoneNumber(), t.getDateOfBirth(),
 				t.isAdmin());
-	}
-
-	@Override
-	public boolean delete(Employee t) {
-
-		return false;
 	}
 
 	@Override

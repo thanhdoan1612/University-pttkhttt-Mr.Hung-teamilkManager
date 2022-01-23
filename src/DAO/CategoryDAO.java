@@ -7,17 +7,7 @@ import model.Category;
 
 public class CategoryDAO extends AbstractDao implements IGenericDAO<Category> {
 
-	@Override
-	public boolean add(Category t) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
-	@Override
-	public boolean delete(Category t) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public boolean update(Category t) {

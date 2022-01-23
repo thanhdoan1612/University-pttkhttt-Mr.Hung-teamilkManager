@@ -7,16 +7,10 @@ import model.OrderDetail;
 
 public class OrderDetailDAO extends AbstractDao implements IGenericDAO<OrderDetail> {
 
-	@Override
+
 	public boolean add(OrderDetail t) {
 		String sql = "INSERT INTO `orderdetail`(`OrderID`,`TeamilkID`, `Quantity`, `Total`) VALUES (?,?,?,?)";
 		return update(sql, t.getOrderID(), t.getTeaMilk().getId(), t.getQuantity(), t.getTotal());
-	}
-
-	@Override
-	public boolean delete(OrderDetail t) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override

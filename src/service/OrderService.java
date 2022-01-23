@@ -24,7 +24,7 @@ public class OrderService implements IGenericService<Order> {
 	@Override
 	public boolean add(Order t) {
 		// TODO Auto-generated method stub
-		return orderDAO.add(t);
+		return false;
 	}
 
 	public Order save(Order t) {

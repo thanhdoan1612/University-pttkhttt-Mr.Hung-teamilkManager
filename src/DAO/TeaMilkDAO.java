@@ -8,16 +8,10 @@ import model.TeaMilk;
 
 public class TeaMilkDAO extends AbstractDao implements IGenericDAO<TeaMilk> {
 
-	@Override
+
 	public boolean add(TeaMilk t) {
 		String sql = "INSERT INTO `teamilk`(`Name`, `Price`, `CategoryID`, `Unit`, `Quantity`)" + " VALUES (?,?,?,?,?)";
 		return update(sql, t.getName(),t.getPrice(),t.getCategoryId(),t.getUnit(),t.getQuantity());
-	}
-
-	@Override
-	public boolean delete(TeaMilk t) {
-		String sql = "delete from teamilk where ID = ?";
-		return update(sql, t.getId());
 	}
 
 	public boolean delete(int id) {

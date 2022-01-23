@@ -12,17 +12,6 @@ public class OrderDAO extends AbstractDao implements IGenericDAO<Order> {
 		return add(sql, t.getEmployeeID(),t.getCreateDate().toString(), t.getTotal());
 	}
 
-	@Override
-	public boolean add(Order t) {
-		String sql = "Insert into orders values (?,?) ";
-		return update(sql, t.getEmployeeID(), t.getTotal());
-	}
-
-	@Override
-	public boolean delete(Order t) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public boolean update(Order t) {

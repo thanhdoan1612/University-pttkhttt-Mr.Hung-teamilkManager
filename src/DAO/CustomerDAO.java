@@ -7,17 +7,6 @@ import model.Customer;
 
 public class CustomerDAO extends AbstractDao implements IGenericDAO<Customer> {
 
-	@Override
-	public boolean add(Customer t) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean delete(Customer t) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public boolean update(Customer t) {
