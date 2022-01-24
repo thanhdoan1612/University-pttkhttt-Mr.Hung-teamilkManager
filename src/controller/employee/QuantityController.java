@@ -163,7 +163,7 @@ public class QuantityController {
 					orderDetail1.setQuantity(1);
 					orderDetail1.computeTotal();
 					orderTableController.addOrderDetail(orderDetail1);
-					orderDetail.getTeaMilk().setName(teamilk.getName() + "\s" + t.getName());
+					orderDetail.getTeaMilk().setName(teamilk.getName() + " "+ t.getName());
 //					listToppingOrder.add(orderDetail1);
 				}
 			}
@@ -171,7 +171,7 @@ public class QuantityController {
 		}
 
 	}
-
+ 
 	public int getQuantityFromField() {
 		String quantityText = quantityView.getField_number().getText();
 		try {
