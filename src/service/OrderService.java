@@ -90,15 +90,26 @@ public class OrderService implements IGenericService<Order> {
 			}
 		}
 		return rs;
-
 	}
-
-
+	public HashMap<Integer, Double> statisticByTeamilk() {
+		HashMap<Integer, Double> rs = new HashMap<Integer, Double>();
+		for (Order o : findAll()) {
+			int key = o.getEmployeeID();
+			if (rs.containsKey(key)) {
+				Double value = rs.get(key);
+				value += o.getTotal();
+				rs.put(key, value);
+			} else {
+				rs.put(key, o.getTotal());
+			}
+		}
+		return rs;
+	}
 
 	@Override
 	public Order findByID(int id) {
 		// TODO Auto-generated method stub
-		return null;
+		return orderDAO.findByID(id);
 	}
 
 	@Override

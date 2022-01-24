@@ -91,7 +91,7 @@ public class EmployeeView extends JFrame {
 		contentPane.add(panel_menu_show);
 		JScrollPane scrollPane_menu = new JScrollPane();
 		scrollPane_menu.setAutoscrolls(true);
-		scrollPane_menu.setBounds(11, 137, 745, 427);
+		scrollPane_menu.setBounds(200, 0, 556, 564);
 		
 		scrollPane_menu.setPreferredSize(new Dimension(100, 200));
 		panel_menu_show.setLayout(null);
@@ -102,7 +102,7 @@ public class EmployeeView extends JFrame {
 		scrollPane_menu.setViewportView(panel_menu);
 		
 		panel_category = new JPanel();
-		panel_category.setBounds(10, 0, 746, 126);
+		panel_category.setBounds(10, 0, 191, 564);
 		panel_menu_show.add(panel_category);
 		panel_category.setLayout(null);
 		panel_category.setAutoscrolls(true);

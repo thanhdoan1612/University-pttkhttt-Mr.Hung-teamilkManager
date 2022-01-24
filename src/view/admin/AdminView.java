@@ -28,7 +28,7 @@ public class AdminView extends JFrame {
 
 	private JPanel contentPane;
 	private JButton btn_teamilk_manager;
-	private JButton btn_table_manager;
+	private JButton btn_order_manager;
 	private JButton btn_user_manager;
 	private JButton btn_statistic;
 	private JButton btn_add;
@@ -38,7 +38,6 @@ public class AdminView extends JFrame {
 	private JTextField field_search;
 	private JComboBox comboBox_search;
 	private JLabel label_name;
-	private JButton btn_switch;
 	private JPanel view_panel;
 
 
@@ -48,14 +47,6 @@ public class AdminView extends JFrame {
 
 	public void setBtn_teamilk_manager(JButton btn_teamilk_manager) {
 		this.btn_teamilk_manager = btn_teamilk_manager;
-	}
-
-	public JButton getBtn_table_manager() {
-		return btn_table_manager;
-	}
-
-	public void setBtn_table_manager(JButton btn_table_manager) {
-		this.btn_table_manager = btn_table_manager;
 	}
 
 	public JButton getBtn_user_manager() {
@@ -162,11 +153,6 @@ public class AdminView extends JFrame {
 		
 		label_name = new JLabel("New label");
 		label_name.setFont(new Font("Arial", Font.PLAIN, 16));
-		
-		btn_switch = new JButton("Màn hình nhân viên");
-		btn_switch.setFont(new Font("Arial", Font.PLAIN, 16));
-		btn_switch.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		btn_switch.setBackground(SystemColor.menu);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -175,20 +161,15 @@ public class AdminView extends JFrame {
 					.addComponent(label_hello, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(label_name, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btn_switch, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(767, Short.MAX_VALUE))
+					.addContainerGap(985, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(label_hello, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-								.addComponent(label_name, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)))
-						.addComponent(btn_switch, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap()
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(label_hello, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+						.addComponent(label_name, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
@@ -263,10 +244,10 @@ public class AdminView extends JFrame {
 					.addContainerGap(308, Short.MAX_VALUE))
 		);
 		view_panel.setLayout(gl_view_panel);
-		btn_table_manager = new JButton("Quản lý bàn");
-		btn_table_manager.setBackground(UIManager.getColor("Button.background"));
-		btn_table_manager.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		btn_table_manager.setFont(new Font("Arial", Font.PLAIN, 16));
+		btn_order_manager = new JButton("Quản lý đặt hàng");
+		btn_order_manager.setBackground(UIManager.getColor("Button.background"));
+		btn_order_manager.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		btn_order_manager.setFont(new Font("Arial", Font.PLAIN, 16));
 
 		btn_teamilk_manager = new JButton("Quản lý thực đơn");
 		btn_teamilk_manager.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
@@ -288,14 +269,14 @@ public class AdminView extends JFrame {
 						.addComponent(btn_statistic, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btn_user_manager, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btn_teamilk_manager, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btn_table_manager, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btn_order_manager, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(27, Short.MAX_VALUE))
 		);
 		gl_manger_panel.setVerticalGroup(
 			gl_manger_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(Alignment.LEADING, gl_manger_panel.createSequentialGroup()
 					.addGap(164)
-					.addComponent(btn_table_manager, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btn_order_manager, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(btn_teamilk_manager, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
 					.addGap(26)
@@ -309,6 +290,14 @@ public class AdminView extends JFrame {
 		contentPane.add(panel);
 		contentPane.add(manger_panel);
 		contentPane.add(view_panel);
+	}
+
+	public JButton getBtn_order_manager() {
+		return btn_order_manager;
+	}
+
+	public void setBtn_order_manager(JButton btn_order_manager) {
+		this.btn_order_manager = btn_order_manager;
 	}
 
 	public JPanel getView_panel() {
@@ -331,13 +320,6 @@ public class AdminView extends JFrame {
 		this.label_name = label_name;
 	}
 
-	public JButton getBtn_switch() {
-		return btn_switch;
-	}
-
-	public void setBtn_switch(JButton btn_switch) {
-		this.btn_switch = btn_switch;
-	}
 
 	public void setComboBox_search(JComboBox comboBox_search) {
 		this.comboBox_search = comboBox_search;

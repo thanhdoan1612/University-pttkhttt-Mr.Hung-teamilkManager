@@ -7,7 +7,6 @@ import model.OrderDetail;
 
 public class OrderDetailDAO extends AbstractDao implements IGenericDAO<OrderDetail> {
 
-
 	public boolean add(OrderDetail t) {
 		String sql = "INSERT INTO `orderdetail`(`OrderID`,`TeamilkID`, `Quantity`, `Total`) VALUES (?,?,?,?)";
 		return update(sql, t.getOrderID(), t.getTeaMilk().getId(), t.getQuantity(), t.getTotal());
@@ -26,7 +25,7 @@ public class OrderDetailDAO extends AbstractDao implements IGenericDAO<OrderDeta
 	}
 
 	public List<OrderDetail> findByOrderId(int id) {
-		String sql = "select * from orderdetail where id =?";
+		String sql = "select * from orderdetail where OrderID =?";
 		return query(sql, new OrderDetailMapper(), id);
 	}
 
@@ -40,6 +39,15 @@ public class OrderDetailDAO extends AbstractDao implements IGenericDAO<OrderDeta
 	public Long save(OrderDetail t) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public List<OrderDetail> findByTeamilkID(int id) {
+		String sql = "select * from orderdetail where TeamilkID=?";
+		return query(sql, new OrderDetailMapper(), id);
+	}
+	public List<OrderDetail> findByGroupTeamilkID(){
+		String sql = "select * from orderdetail group by TeamilkID";
+		return query(sql, new OrderDetailMapper());
 	}
 
 }

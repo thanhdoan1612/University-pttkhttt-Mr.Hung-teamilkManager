@@ -126,7 +126,7 @@ public class AdminController {
 				searchAction();
 			}
 		});
-		this.adminView.getBtn_switch().addActionListener(new ActionListener() {
+		this.adminView.getBtn_order_manager().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {

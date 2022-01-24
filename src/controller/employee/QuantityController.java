@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JCheckBox;
@@ -18,6 +19,7 @@ import model.TeaMilk;
 import service.CategoryService;
 import service.TeaMilkService;
 import utils.ConvertNumber;
+import utils.MessagePopup;
 import view.employee.QuantityView;
 
 public class QuantityController {
@@ -25,6 +27,7 @@ public class QuantityController {
 	private TeaMilk teamilk;
 	private int quantity;
 	private OrderDetail orderDetail;
+//	private List<OrderDetail> listToppingOrder;
 	private OrderTableController orderTableController;
 	private EmployeeController employeeController;
 	private CategoryService categoryService;
@@ -39,6 +42,7 @@ public class QuantityController {
 		this.orderTableController = orderTableController;
 		this.employeeController = employeeController;
 		this.teamilk = teamilk;
+//		this.listToppingOrder = new ArrayList<OrderDetail>();
 		this.categoryService = new CategoryService();
 		this.teaMilkService = new TeaMilkService();
 		initAction();
@@ -93,7 +97,6 @@ public class QuantityController {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				quantity = getQuantityFromField();
-				System.out.println(quantity);
 			}
 		});
 		this.quantityView.getBtn_add().addActionListener(new ActionListener() {
@@ -127,12 +130,17 @@ public class QuantityController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				createOrderDetail();
-				employeeController.setOn();
-				quantityView.dispose();
 
-				int total = (int) orderTableController.getTotal();
-				String totalPrice = ConvertNumber.numberToPrice(total);
-				employeeController.getEmployeeView().getField_total().setText(totalPrice);
+				if (orderDetail.getTeaMilk() != null) {
+					employeeController.setOn();
+					quantityView.dispose();
+					int total = (int) orderTableController.getTotal();
+					String totalPrice = ConvertNumber.numberToPrice(total);
+					employeeController.getEmployeeView().getField_total().setText(totalPrice);
+
+				} else {
+					MessagePopup.showMessage("Vui lòng nhập số lượng, nếu không order hãy chọn hủy ");
+				}
 
 			}
 		});
@@ -140,15 +148,38 @@ public class QuantityController {
 	}
 
 	public void createOrderDetail() {
-		orderDetail.setTeaMilk(teamilk);
-		orderDetail.setTeaMilkID(teamilk.getId());
-		orderDetail.setQuantity(quantity);
-		orderDetail.computeTotal();
-		orderTableController.addOrderDetail(orderDetail);
+		if (quantity != 0) {
+			orderDetail.setTeaMilk(teamilk);
+			orderDetail.setTeaMilkID(teamilk.getId());
+			orderDetail.setQuantity(quantity);
+			orderDetail.computeTotal();
+
+			for (int i = 0; i < checkBoxs.length; i++) {
+				if (checkBoxs[i].isSelected()) {
+					OrderDetail orderDetail1 = new OrderDetail();
+					TeaMilk t = teaMilkService.findByName(fields[i].getText());
+					orderDetail1.setTeaMilk(t);
+					orderDetail1.setTeaMilkID(t.getId());
+					orderDetail1.setQuantity(1);
+					orderDetail1.computeTotal();
+					orderTableController.addOrderDetail(orderDetail1);
+					orderDetail.getTeaMilk().setName(teamilk.getName() + "\s" + t.getName());
+//					listToppingOrder.add(orderDetail1);
+				}
+			}
+			orderTableController.addOrderDetail(orderDetail);
+		}
+
 	}
 
 	public int getQuantityFromField() {
-		return Integer.parseInt(quantityView.getField_number().getText());
+		String quantityText = quantityView.getField_number().getText();
+		try {
+			return Integer.parseInt(quantityText);
+		} catch (Exception e) {
+			return 0;
+		}
+
 	}
 
 	public int getQuantity() {

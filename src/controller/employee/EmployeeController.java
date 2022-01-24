@@ -52,7 +52,7 @@ public class EmployeeController {
 	public void init(Employee employee) {
 		listTeaMilks = teaMilkService.findAll();
 		setEmployeeName(employee.getFullOfName());
-		initMenuPanel();
+		initMenuPanel(listTeaMilks);
 		initCategoryPanel();
 		initOrderTable();
 		initComboBoxOrderType();
@@ -79,33 +79,39 @@ public class EmployeeController {
 		employeeView.getTable_order().setModel(orderTableController.getOrderTable());
 	}
 
-	public void initMenuPanel() {
+	public void initMenuPanel(List<TeaMilk> list) {
 		employeeView.getPanel_menu().removeAll();
-		employeeView.setBtns_menu(getMenuBtns());
-		for (JButton btn : employeeView.getBtns_menu()) {
+		employeeView.setBtns_menu(getMenuBtns(list));
+		for (JButton btn : getMenuBtns(list)) {
 			employeeView.getPanel_menu().add(btn);
 		}
-		employeeView.getPanel_menu().setPreferredSize(new Dimension(500, 100 * getMenuBtns().length));
+		employeeView.getPanel_menu().setPreferredSize(new Dimension(500, 100 * getMenuBtns(list).length));
 		employeeView.revalidate();
 	}
 
 	// Tạo một mảng các button các món ăn
-	public JButton[] getMenuBtns() {
+	public JButton[] getMenuBtns(List<TeaMilk> list) {
 		JButton[] rs = null;
-		rs = new JButton[listTeaMilks.size()];
+		rs = new JButton[list.size()];
 		int i = 0;
 		int x = 0;
 		int y = 0;
-		for (TeaMilk t : listTeaMilks) {
+		for (TeaMilk t : list) {
 			rs[i] = createTeamilkButton(t, x, y);
-			y += rs[i].getHeight();
+			x = rs[i].getWidth() + 3;
+
 			rs[i].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					addTeamilk(t);
 				}
 			});
+			if ((i + 1) % 2 == 0) {
+				x = 0;
+				y += rs[i].getHeight();
+			}
 			i++;
+
 		}
 		return rs;
 	}
@@ -114,7 +120,7 @@ public class EmployeeController {
 	 * Tạo 1 button chọn món tại vị trí x =x, y =y
 	 */
 	public JButton createTeamilkButton(TeaMilk teaMilk, int x, int y) {
-		int width = 400;
+		int width = 275;
 		int height = 100;
 		JButton rs = new JButton();
 		rs.setText(teaMilk.getName());
@@ -126,8 +132,8 @@ public class EmployeeController {
 
 	// Tạo 1 button chọn danh mục món tại vị trí x,y
 	public JButton createCategoryButton(Category category, int x, int y) {
-		int width = 125;
-		int height = 100;
+		int width = 150;
+		int height = 80;
 		JButton rs = new JButton();
 		rs.setText(category.getName());
 		rs.setBounds(x, y, width, height);
@@ -135,7 +141,7 @@ public class EmployeeController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				listTeaMilks = teaMilkService.findByCategoryID(category.getID());
-				initMenuPanel();
+				initMenuPanel(listTeaMilks);
 			}
 		});
 		return rs;
@@ -146,11 +152,11 @@ public class EmployeeController {
 		List<Category> list = categoryService.findAll();
 		rs = new JButton[list.size()];
 		int i = 0;
-		int x = 0;
+		int x = 20;
 		int y = 0;
 		for (Category c : list) {
 			rs[i] = createCategoryButton(c, x, y);
-			x += rs[i].getWidth();
+			y += rs[i].getHeight();
 			i++;
 		}
 		return rs;
@@ -166,6 +172,14 @@ public class EmployeeController {
 	}
 
 	public void initAction() {
+		this.employeeView.getField_search().addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				String name = employeeView.getField_search().getText();
+				searchTeamilk(name);
+			}
+		});
+		
 		this.employeeView.getBtn_accept().addActionListener(new ActionListener() {
 
 			@Override
@@ -224,7 +238,7 @@ public class EmployeeController {
 			}
 		});
 		this.employeeView.getBtn_print().addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -260,25 +274,30 @@ public class EmployeeController {
 	public boolean addOrder() {
 		return orderTableController.addOrder();
 	}
+
+	public void searchTeamilk(String name) {
+		listTeaMilks = teaMilkService.search("Name", name);
+		initMenuPanel(listTeaMilks);
+	}
+
 	public void printOrderIntoPDF() {
 		JPanel panel = employeeView.getPanel_teamilk_order();
 		Document document = new Document();
 		try {
-		    PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("order\\test.pdf"));
-		    document.open();
-		    PdfContentByte contentByte = writer.getDirectContent();
-		    PdfTemplate template = contentByte.createTemplate(500, 500);
-		    Graphics2D g2 = template.createGraphics(500, 500);
-		    panel.print(g2);
-		    g2.dispose();
-		    contentByte.addTemplate(template, 30, 300);
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("order\\test.pdf"));
+			document.open();
+			PdfContentByte contentByte = writer.getDirectContent();
+			PdfTemplate template = contentByte.createTemplate(500, 500);
+			Graphics2D g2 = template.createGraphics(500, 500);
+			panel.print(g2);
+			g2.dispose();
+			contentByte.addTemplate(template, 30, 300);
 		} catch (Exception e) {
-		    e.printStackTrace();
-		}
-		finally{
-		    if(document.isOpen()){
-		        document.close();
-		    }
+			e.printStackTrace();
+		} finally {
+			if (document.isOpen()) {
+				document.close();
+			}
 		}
 	}
 }

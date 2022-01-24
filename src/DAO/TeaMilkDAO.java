@@ -8,10 +8,9 @@ import model.TeaMilk;
 
 public class TeaMilkDAO extends AbstractDao implements IGenericDAO<TeaMilk> {
 
-
 	public boolean add(TeaMilk t) {
 		String sql = "INSERT INTO `teamilk`(`Name`, `Price`, `CategoryID`, `Unit`, `Quantity`)" + " VALUES (?,?,?,?,?)";
-		return update(sql, t.getName(),t.getPrice(),t.getCategoryId(),t.getUnit(),t.getQuantity());
+		return update(sql, t.getName(), t.getPrice(), t.getCategoryId(), t.getUnit(), t.getQuantity());
 	}
 
 	public boolean delete(int id) {
@@ -27,7 +26,7 @@ public class TeaMilkDAO extends AbstractDao implements IGenericDAO<TeaMilk> {
 
 	public List<TeaMilk> search(String nameSearch, String value) {
 		String sql = "Select * from teamilk where " + nameSearch + " LIKE '%" + value + "%'";
-		;
+
 		return query(sql, new TeaMilkMapper());
 	}
 
@@ -44,16 +43,17 @@ public class TeaMilkDAO extends AbstractDao implements IGenericDAO<TeaMilk> {
 
 	public TeaMilk findByID(int id) {
 		String sql = "Select * from teamilk where ID = " + id;
-		return query(sql, new TeaMilkMapper()).isEmpty() ? null:query(sql, new TeaMilkMapper()).get(0);
+		return query(sql, new TeaMilkMapper()).isEmpty() ? null : query(sql, new TeaMilkMapper()).get(0);
 	}
-	
+
 	public TeaMilk findByName(String name) {
 		String sql = "Select * from teamilk where `Name` =  ?";
-		return query(sql, new TeaMilkMapper(),name).isEmpty() ? null:query(sql, new TeaMilkMapper(),name).get(0);
+		return query(sql, new TeaMilkMapper(), name).isEmpty() ? null : query(sql, new TeaMilkMapper(), name).get(0);
 	}
+
 	@Override
 	public Long save(TeaMilk t) {
 		String sql = "INSERT INTO `teamilk`(`Name`, `Price`, `CategoryID`, `Unit`, `Quantity`)" + " VALUES (?,?,?,?,?)";
-		return add(sql, t.getName(),t.getPrice(),t.getCategoryId(),t.getUnit(),t.getQuantity());
+		return add(sql, t.getName(), t.getPrice(), t.getCategoryId(), t.getUnit(), t.getQuantity());
 	}
 }

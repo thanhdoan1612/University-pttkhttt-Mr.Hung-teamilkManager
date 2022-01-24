@@ -7,7 +7,6 @@ import model.Customer;
 
 public class CustomerDAO extends AbstractDao implements IGenericDAO<Customer> {
 
-
 	@Override
 	public boolean update(Customer t) {
 		// TODO Auto-generated method stub
@@ -22,8 +21,8 @@ public class CustomerDAO extends AbstractDao implements IGenericDAO<Customer> {
 
 	@Override
 	public boolean delete(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "delete from customer where id = ?";
+		return update(sql, new CustomerMapper(), id);
 	}
 
 	@Override

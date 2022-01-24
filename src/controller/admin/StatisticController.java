@@ -15,20 +15,26 @@ import javax.swing.table.DefaultTableModel;
 
 import model.Employee;
 import model.Order;
+import model.OrderDetail;
+import model.TeaMilk;
 import service.EmployeeService;
+import service.OrderDetailService;
 import service.OrderService;
+import service.TeaMilkService;
 import utils.ConvertNumber;
 import view.admin.StatisticView;
 
 public class StatisticController {
-	private String[] headerByOrder = new String[] { "ID", "Employee", "Total", "CreatedDate" };
-	private String[] headerByTeamilk = new String[] { "ID", "Teamilk", "Quantity", "Total" };
+	private String[] headerByOrder = new String[] { "ID", "Employee", "Teamilk", "Total", "CreatedDate" };
+	private String[] headerByTeamilk = new String[] { "ID", "Teamilk", "Quantity", "TotalOrder", "Total" };
 	private String[] headerByEmployee = new String[] { "ID", "Employee", "Total" };
 	private StatisticView statisticView;
 	private SimpleDateFormat simpleDateFormat;
 	private DefaultTableModel model;
 	private OrderService orderService;
+	private OrderDetailService orderDetailService;
 	private EmployeeService employeeService;
+	private TeaMilkService teaMilkService;
 	private List<Order> listOrder;
 
 	public StatisticController() {
@@ -36,8 +42,11 @@ public class StatisticController {
 		model = new DefaultTableModel();
 		orderService = new OrderService();
 		employeeService = new EmployeeService();
+		orderDetailService = new OrderDetailService();
 		simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		teaMilkService = new TeaMilkService();
 		listOrder = orderService.findAll();
+
 		statisticView.setVisible(false);
 		init();
 
@@ -73,12 +82,20 @@ public class StatisticController {
 		model.setColumnIdentifiers(headerByOrder);
 		model.setRowCount(0);
 		Employee employee;
-		for (Order o : listOrder) {
+		TeaMilk t;
+		Object[] rowData ;
+		for (Order o : list) {
 			employee = employeeService.findByID(o.getEmployeeID());
+			List<OrderDetail> listOrderDetails = orderDetailService.findByOrderID(o.getId());
+			for (OrderDetail od : listOrderDetails) {
+				t = teaMilkService.findByID(od.getTeaMilkID());
+				rowData= new Object[] { o.getId(), employee.getFullOfName(), t.getName(), o.getTotal(),
+						o.getCreateDate() };
+				model.addRow(rowData);
+			}
 			o.setEmployee(employee);
-			model.addRow(o.toRowTable());
+
 		}
-		model.fireTableDataChanged();
 		statisticView.getTable().setModel(model);
 		statisticView.getField_total().setText(ConvertNumber.numberToPrice((int) orderService.getAllTotal(list)));
 		statisticView.getField_totalOrder().setText(list.size() + "");
@@ -98,6 +115,21 @@ public class StatisticController {
 
 	}
 
+	public void renderModelByTeamilk() {
+		model.setColumnIdentifiers(headerByTeamilk);
+		model.setRowCount(0);
+		List<OrderDetail> listOrderDetails = orderDetailService.findByGroupTeamilkID();
+
+		for (OrderDetail orderD : listOrderDetails) {
+			TeaMilk t = teaMilkService.findByID(orderD.getTeaMilkID());
+			int totalOrder = orderDetailService.findByTeamilkID(t.getId()).size();
+			Object[] row = new Object[] { t.getId(), t.getName(), orderD.getQuantity(), totalOrder, orderD.getTotal() };
+			model.addRow(row);
+		}
+		statisticView.getTable().setModel(model);
+
+	}
+
 	public DefaultTableModel getModel() {
 		return model;
 	}
@@ -107,13 +139,21 @@ public class StatisticController {
 	}
 
 	public void initAction() {
+		statisticView.getBtn_statisticByProduct().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				renderModelByTeamilk();
+
+			}
+		});
 		statisticView.getBtn_statisticByOrder().addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				listOrder = orderService.findAll();
 				renderModelByOrder(listOrder);
-				
+
 			}
 		});
 		statisticView.getBtn_statisticByEmployee().addActionListener(new ActionListener() {
