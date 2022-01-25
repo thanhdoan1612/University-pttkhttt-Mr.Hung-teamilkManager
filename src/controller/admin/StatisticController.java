@@ -16,16 +16,18 @@ import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import model.Order;
 import model.OrderDetail;
+import model.OrderToppingDetail;
 import model.TeaMilk;
 import service.EmployeeService;
 import service.OrderDetailService;
 import service.OrderService;
+import service.OrderToppingDetailService;
 import service.TeaMilkService;
 import utils.ConvertNumber;
 import view.admin.StatisticView;
 
 public class StatisticController {
-	private String[] headerByOrder = new String[] { "ID", "Employee", "Teamilk", "Total", "CreatedDate" };
+	private String[] headerByOrder = new String[] { "ID", "Employee", "Total", "CreatedDate" };
 	private String[] headerByTeamilk = new String[] { "ID", "Teamilk", "Quantity", "TotalOrder", "Total" };
 	private String[] headerByEmployee = new String[] { "ID", "Employee", "Total" };
 	private StatisticView statisticView;
@@ -33,6 +35,7 @@ public class StatisticController {
 	private DefaultTableModel model;
 	private OrderService orderService;
 	private OrderDetailService orderDetailService;
+	private OrderToppingDetailService orderToppingDetailService;
 	private EmployeeService employeeService;
 	private TeaMilkService teaMilkService;
 	private List<Order> listOrder;
@@ -45,6 +48,8 @@ public class StatisticController {
 		orderDetailService = new OrderDetailService();
 		simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		teaMilkService = new TeaMilkService();
+
+		orderToppingDetailService = new OrderToppingDetailService();
 		listOrder = orderService.findAll();
 
 		statisticView.setVisible(false);
@@ -83,16 +88,14 @@ public class StatisticController {
 		model.setRowCount(0);
 		Employee employee;
 		TeaMilk t;
-		Object[] rowData ;
+		Object[] rowData;
 		for (Order o : list) {
 			employee = employeeService.findByID(o.getEmployeeID());
 			List<OrderDetail> listOrderDetails = orderDetailService.findByOrderID(o.getId());
-			for (OrderDetail od : listOrderDetails) {
-				t = teaMilkService.findByID(od.getTeaMilkID());
-				rowData= new Object[] { o.getId(), employee.getFullOfName(), t.getName(), o.getTotal(),
-						o.getCreateDate() };
-				model.addRow(rowData);
-			}
+
+			rowData = new Object[] { o.getId(), employee.getFullOfName(), o.getTotal(), o.getCreateDate() };
+			model.addRow(rowData);
+
 			o.setEmployee(employee);
 
 		}

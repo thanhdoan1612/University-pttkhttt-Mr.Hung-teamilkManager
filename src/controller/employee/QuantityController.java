@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 
 import model.Category;
 import model.OrderDetail;
+import model.OrderToppingDetail;
 import model.TeaMilk;
 import service.CategoryService;
 import service.TeaMilkService;
@@ -34,6 +35,7 @@ public class QuantityController {
 	private TeaMilkService teaMilkService;
 	private JTextField[] fields;
 	private JCheckBox[] checkBoxs;
+	private List<OrderToppingDetail> lisOrderToppingDetails;
 
 	public QuantityController(TeaMilk teamilk, OrderTableController orderTableController,
 			EmployeeController employeeController) {
@@ -149,24 +151,25 @@ public class QuantityController {
 
 	public void createOrderDetail() {
 		if (quantity != 0) {
-			orderDetail.setTeaMilk(teamilk);
+			TeaMilk t = teaMilkService.findByID(teamilk.getId());
 			orderDetail.setTeaMilkID(teamilk.getId());
 			orderDetail.setQuantity(quantity);
+			orderDetail.setTeaMilk(t);
 			orderDetail.computeTotal();
-
+			lisOrderToppingDetails = new ArrayList<OrderToppingDetail>();
 			for (int i = 0; i < checkBoxs.length; i++) {
 				if (checkBoxs[i].isSelected()) {
-					OrderDetail orderDetail1 = new OrderDetail();
-					TeaMilk t = teaMilkService.findByName(fields[i].getText());
-					orderDetail1.setTeaMilk(t);
-					orderDetail1.setTeaMilkID(t.getId());
-					orderDetail1.setQuantity(1);
-					orderDetail1.computeTotal();
-					orderTableController.addOrderDetail(orderDetail1);
-					orderDetail.getTeaMilk().setName(teamilk.getName() + " "+ t.getName());
-//					listToppingOrder.add(orderDetail1);
+
+					TeaMilk topping = teaMilkService.findByName(fields[i].getText());
+					OrderToppingDetail orderToppingDetail = new OrderToppingDetail();
+					orderToppingDetail.setToppingId(topping.getId());
+					t.setName(t.getName() + " " + topping.getName());
+					lisOrderToppingDetails.add(orderToppingDetail);
+					orderDetail.setTotal(orderDetail.getTotal() + topping.getPrice() * quantity);
+
 				}
 			}
+			orderDetail.setListToppingDetails(lisOrderToppingDetails);
 			orderTableController.addOrderDetail(orderDetail);
 		}
 
