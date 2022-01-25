@@ -159,12 +159,14 @@ public class QuantityController {
 			lisOrderToppingDetails = new ArrayList<OrderToppingDetail>();
 			for (int i = 0; i < checkBoxs.length; i++) {
 				if (checkBoxs[i].isSelected()) {
+
 					TeaMilk topping = teaMilkService.findByName(fields[i].getText());
 					OrderToppingDetail orderToppingDetail = new OrderToppingDetail();
 					orderToppingDetail.setToppingId(topping.getId());
 					t.setName(t.getName() + " " + topping.getName());
 					lisOrderToppingDetails.add(orderToppingDetail);
 					orderDetail.setTotal(orderDetail.getTotal() + topping.getPrice() * quantity);
+
 				}
 			}
 			orderDetail.setListToppingDetails(lisOrderToppingDetails);
@@ -172,7 +174,7 @@ public class QuantityController {
 		}
 
 	}
-
+ 
 	public int getQuantityFromField() {
 		String quantityText = quantityView.getField_number().getText();
 		try {
