@@ -1,11 +1,31 @@
 package model;
 
+import java.util.List;
+
 public class OrderDetail {
+	private int id;
 	private TeaMilk teaMilk;
 	private int orderID;
 	private int teaMilkID;
 	private int quantity;
 	private double total;
+	private List<OrderToppingDetail> listToppingDetails;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public List<OrderToppingDetail> getListToppingDetails() {
+		return listToppingDetails;
+	}
+
+	public void setListToppingDetails(List<OrderToppingDetail> listToppingDetails) {
+		this.listToppingDetails = listToppingDetails;
+	}
 
 	public TeaMilk getTeaMilk() {
 		return teaMilk;
@@ -22,8 +42,6 @@ public class OrderDetail {
 	public void setOrderID(int orderID) {
 		this.orderID = orderID;
 	}
-
-	
 
 	public int getTeaMilkID() {
 		return teaMilkID;
@@ -54,7 +72,9 @@ public class OrderDetail {
 	}
 
 	public void computeTotal() {
+
 		this.total = quantity * teaMilk.getPrice();
+
 	}
 
 }

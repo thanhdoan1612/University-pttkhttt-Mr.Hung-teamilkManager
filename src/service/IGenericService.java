@@ -16,4 +16,6 @@ public interface IGenericService<T> {
 	T findByID(int id);
 
 	boolean update(T t);
+	
+	
 }

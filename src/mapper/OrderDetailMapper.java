@@ -13,6 +13,7 @@ public class OrderDetailMapper implements RowMapper<OrderDetail> {
 	public OrderDetail mapRow(ResultSet rss) {
 		OrderDetail orderDetail = new OrderDetail();
 		try {
+			orderDetail.setId(rss.getInt("ID"));
 			orderDetail.setOrderID(rss.getInt("OrderID"));
 			orderDetail.setTeaMilkID(rss.getInt("TeamilkID"));
 			orderDetail.setQuantity(rss.getInt("Quantity"));

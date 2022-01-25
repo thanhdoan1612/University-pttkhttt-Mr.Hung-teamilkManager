@@ -2,14 +2,18 @@ package controller.employee;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
 import model.Order;
 import model.OrderDetail;
+import model.OrderToppingDetail;
+import model.TeaMilk;
 import service.OrderDetailService;
 import service.OrderService;
+import service.OrderToppingDetailService;
 import service.TeaMilkService;
 import utils.Session;
 
@@ -20,6 +24,7 @@ public class OrderTableController {
 	private DefaultTableModel defaultTableModel;
 	private Order order;
 	private List<OrderDetail> list;
+	private OrderToppingDetailService orderToppingDetailService;
 
 	public OrderTableController() {
 		this.orderService = new OrderService();
@@ -31,6 +36,8 @@ public class OrderTableController {
 				return false;
 			}
 		};
+		this.orderToppingDetailService = new OrderToppingDetailService();
+
 		this.order = new Order();
 		this.list = new ArrayList<OrderDetail>();
 		this.header = new String[] { "STT", "Tên món", "Số lượng", "Thành tiền" };
@@ -56,14 +63,12 @@ public class OrderTableController {
 		getOrderTable().setValueAt(o.getTotal(), row, col + 1);
 	}
 
-
-
 	public void addOrderDetail(OrderDetail orderDetail) {
 		int quantity = orderDetail.getQuantity();
-		OrderDetail oldOrderDetail =isExist(orderDetail);
+		OrderDetail oldOrderDetail = isExist(orderDetail);
 		if (isExist(orderDetail) != null) {
 			list.get(list.indexOf(oldOrderDetail)).setQuantity(oldOrderDetail.getQuantity() + quantity);
-			oldOrderDetail.computeTotal();
+			oldOrderDetail.setTotal(orderDetailService.getTotal(oldOrderDetail));
 			updateRow(oldOrderDetail);
 		} else {
 			list.add(orderDetail);
@@ -73,7 +78,7 @@ public class OrderTableController {
 
 	public OrderDetail isExist(OrderDetail orderDetail) {
 		for (OrderDetail o : list) {
-			if (o.getTeaMilkID() == (orderDetail.getTeaMilk().getId())) {
+			if (o.getTeaMilk().getName().equals(orderDetail.getTeaMilk().getName())) {
 				return o;
 			}
 		}
@@ -99,7 +104,13 @@ public class OrderTableController {
 		if (order != null) {
 			for (OrderDetail orderDetail : order.getListOrderDetail()) {
 				orderDetail.setOrderID(order.getId());
-				orderDetailService.add(orderDetail);
+				OrderDetail newOrderDetail = orderDetailService.save(orderDetail);
+				if (newOrderDetail != null) {
+					for (OrderToppingDetail orderToppingDetail : orderDetail.getListToppingDetails()) {
+						orderToppingDetail.setOrderDetailId(newOrderDetail.getId());
+						orderToppingDetailService.add(orderToppingDetail);
+					}
+				}
 			}
 			return true;
 		} else {
