@@ -29,6 +29,12 @@ public class OrderDetailDAO extends AbstractDao implements IGenericDAO<OrderDeta
 		return query(sql, new OrderDetailMapper(), id);
 	}
 
+	public OrderDetail findById(int id) {
+		String sql = "select * from orderdetail where ID =?";
+		return query(sql, new OrderDetailMapper(), id).isEmpty() ? null
+				: query(sql, new OrderDetailMapper(), id).get(0);
+	}
+
 	@Override
 	public boolean delete(int id) {
 		// TODO Auto-generated method stub
@@ -37,15 +43,16 @@ public class OrderDetailDAO extends AbstractDao implements IGenericDAO<OrderDeta
 
 	@Override
 	public Long save(OrderDetail t) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "INSERT INTO `orderdetail`(`OrderID`,`TeamilkID`, `Quantity`, `Total`) VALUES (?,?,?,?)";
+		return add(sql, t.getOrderID(), t.getTeaMilk().getId(), t.getQuantity(), t.getTotal());
 	}
 
 	public List<OrderDetail> findByTeamilkID(int id) {
 		String sql = "select * from orderdetail where TeamilkID=?";
 		return query(sql, new OrderDetailMapper(), id);
 	}
-	public List<OrderDetail> findByGroupTeamilkID(){
+
+	public List<OrderDetail> findByGroupTeamilkID() {
 		String sql = "select * from orderdetail group by TeamilkID";
 		return query(sql, new OrderDetailMapper());
 	}
