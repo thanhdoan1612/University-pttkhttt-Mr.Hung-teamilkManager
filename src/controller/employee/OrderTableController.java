@@ -102,19 +102,28 @@ public class OrderTableController {
 		order.setCreateDate(timestamp);
 		order = orderService.save(order);
 		if (order != null) {
-			for (OrderDetail orderDetail : order.getListOrderDetail()) {
-				orderDetail.setOrderID(order.getId());
-				OrderDetail newOrderDetail = orderDetailService.save(orderDetail);
-				if (newOrderDetail != null) {
-					for (OrderToppingDetail orderToppingDetail : orderDetail.getListToppingDetails()) {
-						orderToppingDetail.setOrderDetailId(newOrderDetail.getId());
-						orderToppingDetailService.add(orderToppingDetail);
-					}
-				}
-			}
+			addOrderDetail(order);
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	public void addOrderDetail(Order order) {
+		for (OrderDetail orderDetail : order.getListOrderDetail()) {
+			orderDetail.setOrderID(order.getId());
+			Long id = orderDetailService.save(orderDetail);
+			if (id != null) {
+				orderDetail.setId(id.intValue());
+				addOrderDetail(orderDetail);
+			}
+		}
+	}
+
+	public void addOrderToppingDetail(OrderDetail orderDetail) {
+		for (OrderToppingDetail orderToppingDetail : orderDetail.getListToppingDetails()) {
+			orderToppingDetail.setOrderDetailId(orderDetail.getId());
+			orderToppingDetailService.add(orderToppingDetail);
 		}
 	}
 

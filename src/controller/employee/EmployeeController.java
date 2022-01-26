@@ -51,6 +51,7 @@ public class EmployeeController {
 
 	public void init(Employee employee) {
 		listTeaMilks = teaMilkService.findAll();
+		
 		setEmployeeName(employee.getFullOfName());
 		initMenuPanel(listTeaMilks);
 		initCategoryPanel();
@@ -232,10 +233,16 @@ public class EmployeeController {
 		this.employeeView.getField_receiveMoney().addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
+
 				String price = employeeView.getField_receiveMoney().getText();
-				int number = ConvertNumber.priceToNumber(price);
-				price = ConvertNumber.numberToPrice(number);
-				employeeView.getField_receiveMoney().setText(price);
+				try {
+					int number = ConvertNumber.priceToNumber(price);
+					price = ConvertNumber.numberToPrice(number);
+					employeeView.getField_receiveMoney().setText(price);
+				} catch (Exception e2) {
+					System.out.println("Chỉ được nhập số");
+				}
+
 			}
 		});
 		this.employeeView.getBtn_print().addActionListener(new ActionListener() {
