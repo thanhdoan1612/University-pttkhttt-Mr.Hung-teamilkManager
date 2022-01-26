@@ -1,9 +1,13 @@
 package service;
 
+import java.util.HashMap;
 import java.util.List;
+
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 
 import DAO.OrderDetailDAO;
 import mapper.OrderDetailMapper;
+import model.Order;
 import model.OrderDetail;
 import model.OrderToppingDetail;
 import model.TeaMilk;
@@ -17,13 +21,8 @@ public class OrderDetailService {
 		teaMilkService = new TeaMilkService();
 	}
 
-	public OrderDetail save(OrderDetail o) {
-		Long id = orderDetailDAO.save(o);
-		if (id != null) {
-			o.setId(id.intValue());
-			return o;
-		}
-		return null;
+	public Long save(OrderDetail o) {
+		return orderDetailDAO.save(o);
 
 	}
 
@@ -43,11 +42,29 @@ public class OrderDetailService {
 		return orderDetailDAO.findByGroupTeamilkID();
 	}
 
+	public HashMap<Integer, Integer> getStatisticTeamilkFromOrder(List<Order> list) {
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for (Order o : list) {
+			List<OrderDetail> orderDetails = orderDetailDAO.findByOrderId(o.getId());
+			for (OrderDetail od : orderDetails) {
+				if (map.containsKey(od.getTeaMilkID())) {
+					int value = map.get(od.getTeaMilkID()) + od.getQuantity();
+					map.put(od.getTeaMilkID(), value);
+				} else {
+					map.put(od.getTeaMilkID(), od.getQuantity());
+
+				}
+			}
+
+		}
+		return map;
+	}
+
 	public double getTotal(OrderDetail orderDetail) {
 		double rs = orderDetail.getQuantity() * orderDetail.getTeaMilk().getPrice();
 		for (OrderToppingDetail orderToppingDetail : orderDetail.getListToppingDetails()) {
 			TeaMilk topping = teaMilkService.findByID(orderToppingDetail.getToppingId());
-			rs += topping.getPrice()*orderDetail.getQuantity();
+			rs += topping.getPrice() * orderDetail.getQuantity();
 		}
 		return rs;
 	}
