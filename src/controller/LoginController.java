@@ -26,7 +26,7 @@ public class LoginController {
 		this.loginView = new LoginView();
 		this.loginView.setVisible(true);
 		init();
-		addAction();
+		initAction();
 	}
 
 	public void init() {
@@ -64,7 +64,7 @@ public class LoginController {
 
 	}
 
-	public void addAction() {
+	public void initAction() {
 		this.loginView.getField_password().addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
