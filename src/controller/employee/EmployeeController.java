@@ -199,7 +199,7 @@ public class EmployeeController {
 						orderPanelController =new OrderPanelController(order);
 						orderPanelController.renderOrder();
 						orderPanelController.renderBackMoney(moneyBack);
-						orderPanelController.renderReceivedMoney(moneyReceive+"");
+						orderPanelController.renderReceivedMoney(price);
 						orderPanelController.renderTotal(total+"");
 						orderPanelController.renderEmployee(Session.USERLOGIN);
 						MessagePopup.showSuccessMessage("Bạn đã thêm đơn thành công");

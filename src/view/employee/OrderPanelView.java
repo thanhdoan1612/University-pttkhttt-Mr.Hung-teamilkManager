@@ -71,19 +71,19 @@ public class OrderPanelView extends JFrame {
 		label_nameMilkTea = new JLabel("Ten mon");
 		label_nameMilkTea.setHorizontalAlignment(SwingConstants.LEFT);
 		label_nameMilkTea.setFont(new Font("Arial", Font.PLAIN, 14));
-		label_nameMilkTea.setBounds(84, 95, 257, 31);
+		label_nameMilkTea.setBounds(84, 95, 305, 31);
 		main_panel.add(label_nameMilkTea);
 
 		label_quantity = new JLabel("So luong");
 		label_quantity.setHorizontalAlignment(SwingConstants.LEFT);
 		label_quantity.setFont(new Font("Arial", Font.PLAIN, 14));
-		label_quantity.setBounds(353, 95, 90, 31);
+		label_quantity.setBounds(399, 95, 90, 31);
 		main_panel.add(label_quantity);
 
 		label_total = new JLabel("Thanh tien");
 		label_total.setHorizontalAlignment(SwingConstants.LEFT);
 		label_total.setFont(new Font("Arial", Font.PLAIN, 14));
-		label_total.setBounds(482, 95, 128, 31);
+		label_total.setBounds(511, 95, 99, 31);
 		main_panel.add(label_total);
 
 		JPanel panel = new JPanel();
@@ -105,34 +105,40 @@ public class OrderPanelView extends JFrame {
 		JLabel lblTongTien = new JLabel("Tong tien:");
 		lblTongTien.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTongTien.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblTongTien.setBounds(194, 270, 128, 31);
+		lblTongTien.setBounds(271, 270, 128, 31);
 		main_panel.add(lblTongTien);
 
 		JLabel lblTienNhan = new JLabel("Tien nhan:");
 		lblTienNhan.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTienNhan.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblTienNhan.setBounds(194, 312, 128, 31);
+		lblTienNhan.setBounds(271, 312, 128, 31);
 		main_panel.add(lblTienNhan);
 
 		JLabel lblTienThoi = new JLabel("Tien thoi:");
 		lblTienThoi.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTienThoi.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblTienThoi.setBounds(194, 356, 128, 31);
+		lblTienThoi.setBounds(271, 354, 128, 31);
 		main_panel.add(lblTienThoi);
 
 		field_total = new JTextField();
+		field_total.setEditable(false);
+		field_total.setHorizontalAlignment(SwingConstants.RIGHT);
 		field_total.setColumns(10);
-		field_total.setBounds(342, 270, 179, 31);
+		field_total.setBounds(409, 271, 179, 31);
 		main_panel.add(field_total);
 
 		field_receivedMoney = new JTextField();
+		field_receivedMoney.setEditable(false);
+		field_receivedMoney.setHorizontalAlignment(SwingConstants.RIGHT);
 		field_receivedMoney.setColumns(10);
-		field_receivedMoney.setBounds(342, 312, 179, 31);
+		field_receivedMoney.setBounds(409, 313, 179, 31);
 		main_panel.add(field_receivedMoney);
 
 		field_backMoney = new JTextField();
+		field_backMoney.setEditable(false);
+		field_backMoney.setHorizontalAlignment(SwingConstants.RIGHT);
 		field_backMoney.setColumns(10);
-		field_backMoney.setBounds(342, 356, 179, 31);
+		field_backMoney.setBounds(409, 357, 179, 31);
 		main_panel.add(field_backMoney);
 
 		JLabel lblChucQuyKhac = new JLabel("CHUC QUY KHACH CO MOT NGAY VUI VE!!");
@@ -156,19 +162,19 @@ public class OrderPanelView extends JFrame {
 		label_nameMilkTea_1 = new JLabel("Ten mon");
 		label_nameMilkTea_1.setHorizontalAlignment(SwingConstants.LEFT);
 		label_nameMilkTea_1.setFont(new Font("Arial", Font.PLAIN, 14));
-		label_nameMilkTea_1.setBounds(84, 11, 257, 31);
+		label_nameMilkTea_1.setBounds(84, 11, 303, 31);
 		panel_orderDetail.add(label_nameMilkTea_1);
 		
 		label_quantity_1 = new JLabel("So luong");
 		label_quantity_1.setHorizontalAlignment(SwingConstants.LEFT);
 		label_quantity_1.setFont(new Font("Arial", Font.PLAIN, 14));
-		label_quantity_1.setBounds(351, 11, 90, 31);
+		label_quantity_1.setBounds(397, 11, 90, 31);
 		panel_orderDetail.add(label_quantity_1);
 		
 		label_total_1 = new JLabel("Thanh tien");
 		label_total_1.setHorizontalAlignment(SwingConstants.LEFT);
 		label_total_1.setFont(new Font("Arial", Font.PLAIN, 14));
-		label_total_1.setBounds(482, 11, 128, 31);
+		label_total_1.setBounds(508, 11, 102, 31);
 		panel_orderDetail.add(label_total_1);
 
 		panel_1 = new JPanel();
