@@ -1,21 +1,19 @@
 package view.admin;
 
+import java.awt.Color;
 import java.awt.Font;
-import java.awt.Rectangle;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 
 import com.toedter.calendar.JDateChooser;
-import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 
 public class StatisticView extends JPanel {
 	private JDateChooser dateChoose_from;
