@@ -48,6 +48,16 @@ public class OrderTableController {
 		defaultTableModel.setColumnIdentifiers(this.header);
 		return defaultTableModel;
 	}
+	public void clear() {
+		this.list = new ArrayList<OrderDetail>();
+		this.defaultTableModel = new DefaultTableModel() {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		};
+	}
 
 	public void addRow(OrderDetail o) {
 		int stt = getOrderTable().getRowCount() + 1;
@@ -93,7 +103,7 @@ public class OrderTableController {
 		return rs;
 	}
 
-	public boolean addOrder() {
+	public Order addOrder() {
 		Order order = new Order();
 		order.setEmployeeID(Session.USERLOGIN.getId());
 		order.setListOrderDetail(list);
@@ -102,25 +112,25 @@ public class OrderTableController {
 		order.setCreateDate(timestamp);
 		order = orderService.save(order);
 		if (order != null) {
-			addOrderDetail(order);
-			return true;
+			addOrderDetailByOrder(order);
+			return order;
 		} else {
-			return false;
+			return null;
 		}
 	}
 
-	public void addOrderDetail(Order order) {
+	public void addOrderDetailByOrder(Order order) {
 		for (OrderDetail orderDetail : order.getListOrderDetail()) {
 			orderDetail.setOrderID(order.getId());
 			Long id = orderDetailService.save(orderDetail);
 			if (id != null) {
 				orderDetail.setId(id.intValue());
-				addOrderDetail(orderDetail);
+				addOrderToppingDetailByOrderDetail(orderDetail);
 			}
 		}
 	}
 
-	public void addOrderToppingDetail(OrderDetail orderDetail) {
+	public void addOrderToppingDetailByOrderDetail(OrderDetail orderDetail) {
 		for (OrderToppingDetail orderToppingDetail : orderDetail.getListToppingDetails()) {
 			orderToppingDetail.setOrderDetailId(orderDetail.getId());
 			orderToppingDetailService.add(orderToppingDetail);
