@@ -2,14 +2,18 @@ package controller.employee;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
 import model.Order;
 import model.OrderDetail;
+import model.OrderToppingDetail;
+import model.TeaMilk;
 import service.OrderDetailService;
 import service.OrderService;
+import service.OrderToppingDetailService;
 import service.TeaMilkService;
 import utils.Session;
 
@@ -20,6 +24,7 @@ public class OrderTableController {
 	private DefaultTableModel defaultTableModel;
 	private Order order;
 	private List<OrderDetail> list;
+	private OrderToppingDetailService orderToppingDetailService;
 
 	public OrderTableController() {
 		this.orderService = new OrderService();
@@ -31,6 +36,8 @@ public class OrderTableController {
 				return false;
 			}
 		};
+		this.orderToppingDetailService = new OrderToppingDetailService();
+
 		this.order = new Order();
 		this.list = new ArrayList<OrderDetail>();
 		this.header = new String[] { "STT", "Tên món", "Số lượng", "Thành tiền" };
@@ -40,6 +47,16 @@ public class OrderTableController {
 	public DefaultTableModel getOrderTable() {
 		defaultTableModel.setColumnIdentifiers(this.header);
 		return defaultTableModel;
+	}
+	public void clear() {
+		this.list = new ArrayList<OrderDetail>();
+		this.defaultTableModel = new DefaultTableModel() {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		};
 	}
 
 	public void addRow(OrderDetail o) {
@@ -56,14 +73,12 @@ public class OrderTableController {
 		getOrderTable().setValueAt(o.getTotal(), row, col + 1);
 	}
 
-
-
 	public void addOrderDetail(OrderDetail orderDetail) {
 		int quantity = orderDetail.getQuantity();
-		OrderDetail oldOrderDetail =isExist(orderDetail);
+		OrderDetail oldOrderDetail = isExist(orderDetail);
 		if (isExist(orderDetail) != null) {
 			list.get(list.indexOf(oldOrderDetail)).setQuantity(oldOrderDetail.getQuantity() + quantity);
-			oldOrderDetail.computeTotal();
+			oldOrderDetail.setTotal(orderDetailService.getTotal(oldOrderDetail));
 			updateRow(oldOrderDetail);
 		} else {
 			list.add(orderDetail);
@@ -73,7 +88,7 @@ public class OrderTableController {
 
 	public OrderDetail isExist(OrderDetail orderDetail) {
 		for (OrderDetail o : list) {
-			if (o.getTeaMilkID() == (orderDetail.getTeaMilk().getId())) {
+			if (o.getTeaMilk().getName().equals(orderDetail.getTeaMilk().getName())) {
 				return o;
 			}
 		}
@@ -88,7 +103,7 @@ public class OrderTableController {
 		return rs;
 	}
 
-	public boolean addOrder() {
+	public Order addOrder() {
 		Order order = new Order();
 		order.setEmployeeID(Session.USERLOGIN.getId());
 		order.setListOrderDetail(list);
@@ -97,13 +112,28 @@ public class OrderTableController {
 		order.setCreateDate(timestamp);
 		order = orderService.save(order);
 		if (order != null) {
-			for (OrderDetail orderDetail : order.getListOrderDetail()) {
-				orderDetail.setOrderID(order.getId());
-				orderDetailService.add(orderDetail);
-			}
-			return true;
+			addOrderDetailByOrder(order);
+			return order;
 		} else {
-			return false;
+			return null;
+		}
+	}
+
+	public void addOrderDetailByOrder(Order order) {
+		for (OrderDetail orderDetail : order.getListOrderDetail()) {
+			orderDetail.setOrderID(order.getId());
+			Long id = orderDetailService.save(orderDetail);
+			if (id != null) {
+				orderDetail.setId(id.intValue());
+				addOrderToppingDetailByOrderDetail(orderDetail);
+			}
+		}
+	}
+
+	public void addOrderToppingDetailByOrderDetail(OrderDetail orderDetail) {
+		for (OrderToppingDetail orderToppingDetail : orderDetail.getListToppingDetails()) {
+			orderToppingDetail.setOrderDetailId(orderDetail.getId());
+			orderToppingDetailService.add(orderToppingDetail);
 		}
 	}
 

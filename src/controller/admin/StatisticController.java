@@ -16,18 +16,19 @@ import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import model.Order;
 import model.OrderDetail;
+import model.OrderToppingDetail;
 import model.TeaMilk;
 import service.EmployeeService;
 import service.OrderDetailService;
 import service.OrderService;
+import service.OrderToppingDetailService;
 import service.TeaMilkService;
 import utils.ConvertNumber;
 import view.admin.StatisticView;
 
 public class StatisticController {
-	private String[] headerByOrder = new String[] { "ID", "Employee", "Teamilk", "Total", "CreatedDate" };
-	private String[] headerByTeamilk = new String[] { "ID", "Teamilk", "Quantity", "TotalOrder", "Total" };
-	private String[] headerByEmployee = new String[] { "ID", "Employee", "Total" };
+	private String[] headerByOrder = new String[] { "Mã Hóa Đơn", "Tên nhân viên", "Thành tiền", "Ngày tạo đơn" };
+	private String[] headerByTeamilk = new String[] { "Mã sản phẩm", "Tên sản phẩm", "Số lượng bán ra", "Thành tiền" };
 	private StatisticView statisticView;
 	private SimpleDateFormat simpleDateFormat;
 	private DefaultTableModel model;
@@ -45,6 +46,7 @@ public class StatisticController {
 		orderDetailService = new OrderDetailService();
 		simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		teaMilkService = new TeaMilkService();
+
 		listOrder = orderService.findAll();
 
 		statisticView.setVisible(false);
@@ -57,6 +59,7 @@ public class StatisticController {
 	}
 
 	public void init() {
+		listOrder = orderService.findAll();
 		initDate();
 		initModel();
 		initAction();
@@ -83,16 +86,14 @@ public class StatisticController {
 		model.setRowCount(0);
 		Employee employee;
 		TeaMilk t;
-		Object[] rowData ;
+		Object[] rowData;
 		for (Order o : list) {
 			employee = employeeService.findByID(o.getEmployeeID());
 			List<OrderDetail> listOrderDetails = orderDetailService.findByOrderID(o.getId());
-			for (OrderDetail od : listOrderDetails) {
-				t = teaMilkService.findByID(od.getTeaMilkID());
-				rowData= new Object[] { o.getId(), employee.getFullOfName(), t.getName(), o.getTotal(),
-						o.getCreateDate() };
-				model.addRow(rowData);
-			}
+
+			rowData = new Object[] { o.getId(), employee.getFullOfName(), o.getTotal(), o.getCreateDate() };
+			model.addRow(rowData);
+
 			o.setEmployee(employee);
 
 		}
@@ -102,28 +103,14 @@ public class StatisticController {
 
 	}
 
-	public void renderModelByEmployee() {
-		model.setColumnIdentifiers(headerByEmployee);
-		model.setRowCount(0);
-		HashMap<Integer, Double> map = orderService.statisticByEmployee();
-		for (int key : map.keySet()) {
-			Employee employee = employeeService.findByID(key);
-			Object[] row = new Object[] { employee.getId(), employee.getFullOfName(), map.get(key) };
-			model.addRow(row);
-		}
-		statisticView.getTable().setModel(model);
-
-	}
-
 	public void renderModelByTeamilk() {
 		model.setColumnIdentifiers(headerByTeamilk);
 		model.setRowCount(0);
-		List<OrderDetail> listOrderDetails = orderDetailService.findByGroupTeamilkID();
-
-		for (OrderDetail orderD : listOrderDetails) {
-			TeaMilk t = teaMilkService.findByID(orderD.getTeaMilkID());
-			int totalOrder = orderDetailService.findByTeamilkID(t.getId()).size();
-			Object[] row = new Object[] { t.getId(), t.getName(), orderD.getQuantity(), totalOrder, orderD.getTotal() };
+		HashMap<Integer, Integer> map = orderDetailService.getStatisticTeamilkFromOrder(listOrder);
+		for (int id : map.keySet()) {
+			TeaMilk t = teaMilkService.findByID(id);
+			int quantity = map.get(id);
+			Object[] row = new Object[] { t.getId(), t.getName(), quantity, quantity * t.getPrice() };
 			model.addRow(row);
 		}
 		statisticView.getTable().setModel(model);
@@ -151,16 +138,8 @@ public class StatisticController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				listOrder = orderService.findAll();
 				renderModelByOrder(listOrder);
 
-			}
-		});
-		statisticView.getBtn_statisticByEmployee().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				renderModelByEmployee();
 			}
 		});
 		statisticView.getBtn_filter().addActionListener(new ActionListener() {

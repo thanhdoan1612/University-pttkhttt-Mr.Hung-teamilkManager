@@ -22,6 +22,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import controller.LoginController;
 import model.Category;
 import model.Employee;
+import model.Order;
 import model.OrderType;
 import model.TeaMilk;
 import service.CategoryService;
@@ -38,6 +39,7 @@ public class EmployeeController {
 	private CategoryService categoryService;
 	private OrderTableController orderTableController;
 	private List<TeaMilk> listTeaMilks;
+	private OrderPanelController orderPanelController;
 
 	public EmployeeController() {
 		this.employeeView = new EmployeeView();
@@ -51,6 +53,7 @@ public class EmployeeController {
 
 	public void init(Employee employee) {
 		listTeaMilks = teaMilkService.findAll();
+
 		setEmployeeName(employee.getFullOfName());
 		initMenuPanel(listTeaMilks);
 		initCategoryPanel();
@@ -103,6 +106,7 @@ public class EmployeeController {
 			rs[i].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+
 					addTeamilk(t);
 				}
 			});
@@ -179,7 +183,7 @@ public class EmployeeController {
 				searchTeamilk(name);
 			}
 		});
-		
+
 		this.employeeView.getBtn_accept().addActionListener(new ActionListener() {
 
 			@Override
@@ -190,7 +194,14 @@ public class EmployeeController {
 					int total = ConvertNumber.priceToNumber(employeeView.getField_total().getText());
 					String moneyBack = ConvertNumber.numberToPrice(moneyReceive - total);
 					employeeView.getField_moneyBack().setText(moneyBack);
-					if (addOrder()) {
+					Order order = addOrder();
+					if (order != null) {
+						orderPanelController =new OrderPanelController(order);
+						orderPanelController.renderOrder();
+						orderPanelController.renderBackMoney(moneyBack);
+						orderPanelController.renderReceivedMoney(price);
+						orderPanelController.renderTotal(total+"");
+						orderPanelController.renderEmployee(Session.USERLOGIN);
 						MessagePopup.showSuccessMessage("Bạn đã thêm đơn thành công");
 					} else {
 						MessagePopup.showMessage("Có lỗi khi thêm đơn hàng");
@@ -231,10 +242,16 @@ public class EmployeeController {
 		this.employeeView.getField_receiveMoney().addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
+
 				String price = employeeView.getField_receiveMoney().getText();
-				int number = ConvertNumber.priceToNumber(price);
-				price = ConvertNumber.numberToPrice(number);
-				employeeView.getField_receiveMoney().setText(price);
+				try {
+					int number = ConvertNumber.priceToNumber(price);
+					price = ConvertNumber.numberToPrice(number);
+					employeeView.getField_receiveMoney().setText(price);
+				} catch (Exception e2) {
+					System.out.println("Chỉ được nhập số");
+				}
+
 			}
 		});
 		this.employeeView.getBtn_print().addActionListener(new ActionListener() {
@@ -243,6 +260,7 @@ public class EmployeeController {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				printOrderIntoPDF();
+				clear();
 			}
 		});
 	}
@@ -252,8 +270,9 @@ public class EmployeeController {
 		employeeView.getField_moneyBack().setText("");
 		employeeView.getField_receiveMoney().setText("");
 		employeeView.getField_total().setText("");
-		orderTableController.getOrderTable().setRowCount(0);
+		orderTableController.clear();
 		employeeView.getTable_order().setModel(orderTableController.getOrderTable());
+		
 	}
 
 	public void addTeamilk(TeaMilk t) {
@@ -271,7 +290,7 @@ public class EmployeeController {
 		employeeView.setEnabled(true);
 	}
 
-	public boolean addOrder() {
+	public Order addOrder() {
 		return orderTableController.addOrder();
 	}
 
@@ -281,23 +300,7 @@ public class EmployeeController {
 	}
 
 	public void printOrderIntoPDF() {
-		JPanel panel = employeeView.getPanel_teamilk_order();
-		Document document = new Document();
-		try {
-			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("order\\test.pdf"));
-			document.open();
-			PdfContentByte contentByte = writer.getDirectContent();
-			PdfTemplate template = contentByte.createTemplate(500, 500);
-			Graphics2D g2 = template.createGraphics(500, 500);
-			panel.print(g2);
-			g2.dispose();
-			contentByte.addTemplate(template, 30, 300);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (document.isOpen()) {
-				document.close();
-			}
-		}
+		this.orderPanelController.getOrderPanelView().setVisible(true);
+		this.orderPanelController.printOrderIntoPDF();
 	}
 }

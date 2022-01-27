@@ -27,7 +27,6 @@ public class StatisticView extends JPanel {
 	private JTextField field_totalOrder;
 	private JTextField field_total;
 	private JButton btn_filter;
-	private JButton btn_statisticByEmployee;
 	private JButton btn_statisticByOrder;
 	private JButton btn_statisticByProduct;
 
@@ -112,6 +111,7 @@ public class StatisticView extends JPanel {
 		btn_filter.setIcon(new ImageIcon("imgs/filter.png"));
 		add(btn_filter);
 		
+<<<<<<< HEAD
 		btn_statisticByEmployee = new JButton("Nhân viên");
 		btn_statisticByEmployee.setFont(new Font("Arial", Font.PLAIN, 16));
 		btn_statisticByEmployee.setIcon(new ImageIcon("imgs/employee.png"));
@@ -122,12 +122,21 @@ public class StatisticView extends JPanel {
 		btn_statisticByProduct.setFont(new Font("Arial", Font.PLAIN, 16));
 		btn_statisticByProduct.setBounds(801, 237, 143, 41);
 		btn_statisticByProduct.setIcon(new ImageIcon("imgs/product.png"));
+=======
+		btn_statisticByProduct = new JButton("Sản phẩm");
+		btn_statisticByProduct.setFont(new Font("Arial", Font.PLAIN, 16));
+		btn_statisticByProduct.setBounds(801, 169, 143, 41);
+>>>>>>> master
 		add(btn_statisticByProduct);
 		
 		btn_statisticByOrder = new JButton("Hóa đơn");
 		btn_statisticByOrder.setFont(new Font("Arial", Font.PLAIN, 16));
+<<<<<<< HEAD
 		btn_statisticByOrder.setBounds(801, 301, 143, 41);
 		btn_statisticByOrder.setIcon(new ImageIcon("imgs/bill.png"));
+=======
+		btn_statisticByOrder.setBounds(801, 221, 143, 41);
+>>>>>>> master
 		add(btn_statisticByOrder);
 		
 		JLabel label_dateTo_1 = new JLabel("Thống kê theo");
@@ -146,13 +155,6 @@ public class StatisticView extends JPanel {
 		this.btn_statisticByOrder = btn_statisticByOrder;
 	}
 
-	public JButton getBtn_statisticByEmployee() {
-		return btn_statisticByEmployee;
-	}
-
-	public void setBtn_statisticByEmployee(JButton btn_statisticByEmployee) {
-		this.btn_statisticByEmployee = btn_statisticByEmployee;
-	}
 
 	public JButton getBtn_statisticByProduct() {
 		return btn_statisticByProduct;
