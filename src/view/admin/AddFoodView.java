@@ -2,6 +2,7 @@ package view.admin;
 
 import java.awt.Font;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -29,14 +30,14 @@ public class AddFoodView extends JFrame {
 	public AddFoodView() {
 		setTitle("Thêm sản phẩm");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 343);
+		setBounds(100, 100, 470, 353);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 414, 283);
+		panel.setBounds(10, 11, 434, 303);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -69,12 +70,14 @@ public class AddFoodView extends JFrame {
 
 		btn_ok = new JButton("Xác nhận");
 		btn_ok.setFont(new Font("Arial", Font.PLAIN, 16));
-		btn_ok.setBounds(74, 222, 105, 50);
+		btn_ok.setIcon(new ImageIcon("imgs/tick.png"));
+		btn_ok.setBounds(74, 222, 145, 50);
 		panel.add(btn_ok);
 
 		btn_cancel = new JButton("Hủy");
 		btn_cancel.setFont(new Font("Arial", Font.PLAIN, 16));
-		btn_cancel.setBounds(246, 222, 105, 50);
+		btn_cancel.setBounds(246, 222, 145, 50);
+		btn_cancel.setIcon(new ImageIcon("imgs/exit.png"));
 		panel.add(btn_cancel);
 
 		JLabel label_quantity = new JLabel("Số lượng");

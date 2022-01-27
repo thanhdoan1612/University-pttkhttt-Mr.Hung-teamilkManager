@@ -8,6 +8,8 @@ import java.awt.SystemColor;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -191,12 +193,15 @@ public class AdminView extends JFrame {
 		table_scroll.setAutoscrolls(true);
 		btn_add = new JButton("Thêm");
 		btn_add.setFont(new Font("Arial", Font.PLAIN, 16));
-
+		btn_add.setIcon(new ImageIcon("imgs/add.png"));
+		
 		btn_edit = new JButton("Sửa");
 		btn_edit.setFont(new Font("Arial", Font.PLAIN, 16));
+		btn_edit.setIcon(new ImageIcon("imgs/fix.png"));
 
 		btn_delete = new JButton("Xóa");
 		btn_delete.setFont(new Font("Arial", Font.PLAIN, 16));
+		btn_delete.setIcon(new ImageIcon("imgs/delete.png"));
 		
 		comboBox_search = new JComboBox();
 		comboBox_search.setMaximumRowCount(50);
@@ -248,18 +253,23 @@ public class AdminView extends JFrame {
 		btn_order_manager.setBackground(UIManager.getColor("Button.background"));
 		btn_order_manager.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		btn_order_manager.setFont(new Font("Arial", Font.PLAIN, 16));
-
+		btn_order_manager.setIcon(new ImageIcon("imgs/order.png"));
+		
 		btn_teamilk_manager = new JButton("Quản lý thực đơn");
 		btn_teamilk_manager.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		btn_teamilk_manager.setFont(new Font("Arial", Font.PLAIN, 16));
-
+		btn_teamilk_manager.setIcon(new ImageIcon("imgs/menu.png"));
+		
 		btn_user_manager = new JButton("Quản lý tài khoản");
 		btn_user_manager.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		btn_user_manager.setFont(new Font("Arial", Font.PLAIN, 16));
-
+		btn_user_manager.setIcon(new ImageIcon("imgs/account.png"));
+		
 		btn_statistic = new JButton("Thống kê");
 		btn_statistic.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		btn_statistic.setFont(new Font("Arial", Font.PLAIN, 16));
+		btn_statistic.setIcon(new ImageIcon("imgs/statistical.png"));
+		
 		GroupLayout gl_manger_panel = new GroupLayout(manger_panel);
 		gl_manger_panel.setHorizontalGroup(
 			gl_manger_panel.createParallelGroup(Alignment.LEADING)

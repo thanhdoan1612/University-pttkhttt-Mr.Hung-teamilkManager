@@ -2,6 +2,7 @@ package view.admin;
 
 import java.awt.Font;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -29,7 +30,7 @@ public class AddEmployeeView extends JFrame {
 	public AddEmployeeView() {
 		setTitle("Thêm nhân viên");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 512, 408);
+		setBounds(100, 100, 532, 428);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -86,16 +87,18 @@ public class AddEmployeeView extends JFrame {
 
 		btn_add = new JButton("Thêm");
 		btn_add.setFont(new Font("Arial", Font.PLAIN, 16));
-		btn_add.setBounds(84, 315, 117, 44);
+		btn_add.setBounds(84, 315, 123, 44);
+		btn_add.setIcon(new ImageIcon("imgs/add.png"));
 		contentPane.add(btn_add);
 
 		btn_cancel = new JButton("Hủy");
 		btn_cancel.setFont(new Font("Arial", Font.PLAIN, 16));
-		btn_cancel.setBounds(257, 315, 112, 44);
+		btn_cancel.setBounds(257, 315, 123, 44);
+		btn_cancel.setIcon(new ImageIcon("imgs/exit.png"));
 		contentPane.add(btn_cancel);
 
 		JButton btn_showPass = new JButton("New button");
-		btn_showPass.setBounds(449, 113, 37, 23);
+		btn_showPass.setBounds(449, 113, 47, 23);
 		contentPane.add(btn_showPass);
 
 		field_password = new JPasswordField();

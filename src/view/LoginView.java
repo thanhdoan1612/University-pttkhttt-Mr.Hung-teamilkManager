@@ -1,12 +1,14 @@
 package view;
 
-import java.awt.EventQueue;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+import java.awt.*;
+import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,13 +38,19 @@ public class LoginView extends JFrame {
 		setTitle("Đăng nhập hệ thống");
 		setFont(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(200, 200, 500, 350);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
 		JPanel panel = new JPanel();
+//		panel.setLayout(new BorderLayout());
+//		JLabel lbl = new JLabel();
+//		panel.add(lbl, BorderLayout.CENTER);
+//		lbl.setIcon(new ImageIcon("imgs/backgroung.png"));
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
@@ -70,14 +78,18 @@ public class LoginView extends JFrame {
 		
 		btn_login = new JButton("Đăng nhập");
 		btn_login.setFont(new Font("Arial", Font.PLAIN, 16));
+		btn_login.setIcon(new ImageIcon("imgs/login.png"));
 		
 		btn_exit = new JButton("Thoát");
 		btn_exit.setFont(new Font("Arial", Font.PLAIN, 16));
+		btn_exit.setIcon(new ImageIcon("imgs/exit.png"));
 		
 		field_password = new JPasswordField();
 		field_password.setToolTipText("");
 		field_password.setFont(new Font("Arial", Font.PLAIN, 16));
+		
 		GroupLayout gl_panel = new GroupLayout(panel);
+		
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
@@ -85,9 +97,9 @@ public class LoginView extends JFrame {
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(30)
-							.addComponent(btn_login, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btn_login, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
 							.addGap(39)
-							.addComponent(btn_exit, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE))
+							.addComponent(btn_exit, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addComponent(label_username, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
@@ -120,15 +132,13 @@ public class LoginView extends JFrame {
 	}
 
 
-
-	 public JTextField getField_username() {
+	public JTextField getField_username() {
 		return field_username;
 	}
 
 	public void setField_username(JTextField field_username) {
 		this.field_username = field_username;
 	}
-
 
 
 	public JPasswordField getField_password() {

@@ -7,8 +7,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Dimension;
 import javax.swing.JButton;
@@ -80,7 +83,7 @@ public class EmployeeView extends JFrame {
 		setTitle("Hệ thống quản lý");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(50, 50,this.WIDTH,this.HEIGHT);
-
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -133,7 +136,9 @@ public class EmployeeView extends JFrame {
 		
 		btn_delete = new JButton("Xóa");
 		btn_delete.setFont(new Font("Arial", Font.PLAIN, 14));
-		btn_delete.setBounds(289, 354, 122, 45);
+		btn_delete.setBounds(289, 354, 132, 45);
+		btn_delete.setIcon(new ImageIcon("imgs/delete.png"));
+		
 		panel_teamilk_order.add(btn_delete);
 		
 		JLabel label_orderType = new JLabel("Loại đơn :");
@@ -183,12 +188,14 @@ public class EmployeeView extends JFrame {
 		
 		btn_print = new JButton("In hóa đơn");
 		btn_print.setFont(new Font("Arial", Font.PLAIN, 14));
-		btn_print.setBounds(289, 431, 122, 45);
+		btn_print.setBounds(289, 431, 132, 45);
+		btn_print.setIcon(new ImageIcon("imgs/inhoadon.png"));
 		panel_teamilk_order.add(btn_print);
 		
 		btn_accept = new JButton("Xác nhận");
 		btn_accept.setFont(new Font("Arial", Font.PLAIN, 14));
-		btn_accept.setBounds(289, 506, 122, 45);
+		btn_accept.setBounds(289, 506, 132, 45);
+		btn_accept.setIcon(new ImageIcon("imgs/tick.png"));
 		panel_teamilk_order.add(btn_accept);
 		
 		label_moneyBack = new JLabel("Tiền thối :");
@@ -205,7 +212,7 @@ public class EmployeeView extends JFrame {
 		panel_teamilk_order.add(field_moneyBack);
 		
 		JPanel panel_header = new JPanel();
-		panel_header.setBounds(0, 0, 1240, 55);
+		panel_header.setBounds(0, 0, 1260, 55);
 		contentPane.add(panel_header);
 		
 		JLabel label_hello = new JLabel("Xin chào");
@@ -214,6 +221,7 @@ public class EmployeeView extends JFrame {
 		
 		btn_exit = new JButton("Thoát");
 		btn_exit.setFont(new Font("Arial", Font.PLAIN, 12));
+		btn_exit.setIcon(new ImageIcon("imgs/exit.png"));
 		
 		label_employee_name = new JLabel("New label");
 		label_employee_name.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -240,8 +248,8 @@ public class EmployeeView extends JFrame {
 					.addComponent(label_hello, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
 					.addGap(10)
 					.addComponent(label_employee_name, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
-					.addComponent(btn_exit, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE))
+					.addGap(0)
+					.addComponent(btn_exit, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE))
 		);
 		gl_panel_header.setVerticalGroup(
 			gl_panel_header.createParallelGroup(Alignment.LEADING)

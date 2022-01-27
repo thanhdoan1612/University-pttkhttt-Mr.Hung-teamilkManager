@@ -13,6 +13,8 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class StatisticView extends JPanel {
@@ -107,21 +109,25 @@ public class StatisticView extends JPanel {
 		btn_filter = new JButton("Lọc");
 		btn_filter.setFont(new Font("Arial", Font.PLAIN, 16));
 		btn_filter.setBounds(748, 11, 117, 41);
+		btn_filter.setIcon(new ImageIcon("imgs/filter.png"));
 		add(btn_filter);
 		
 		btn_statisticByEmployee = new JButton("Nhân viên");
 		btn_statisticByEmployee.setFont(new Font("Arial", Font.PLAIN, 16));
+		btn_statisticByEmployee.setIcon(new ImageIcon("imgs/employee.png"));
 		btn_statisticByEmployee.setBounds(801, 174, 143, 41);
 		add(btn_statisticByEmployee);
 		
 		btn_statisticByProduct = new JButton("Sản phẩm");
 		btn_statisticByProduct.setFont(new Font("Arial", Font.PLAIN, 16));
 		btn_statisticByProduct.setBounds(801, 237, 143, 41);
+		btn_statisticByProduct.setIcon(new ImageIcon("imgs/product.png"));
 		add(btn_statisticByProduct);
 		
 		btn_statisticByOrder = new JButton("Hóa đơn");
 		btn_statisticByOrder.setFont(new Font("Arial", Font.PLAIN, 16));
 		btn_statisticByOrder.setBounds(801, 301, 143, 41);
+		btn_statisticByOrder.setIcon(new ImageIcon("imgs/bill.png"));
 		add(btn_statisticByOrder);
 		
 		JLabel label_dateTo_1 = new JLabel("Thống kê theo");
